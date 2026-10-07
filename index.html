@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Jornada 1 — Repaso y práctica</title>
+<style>
+:root{
+  --bg:#EDF1F0; --surface:#FFFFFF; --ink:#15222A; --muted:#46555D; --line:#C3CDD0;
+  --nav:#17323D; --nav-ink:#F2F6F5; --action:#17323D; --action-hover:#0E2229;
+  --prompt:#17634F; --prompt-bg:#E2F0EA;
+  --data:#6E4A00; --data-bg:#FFF3D3;
+  --instr:#4A3B86; --instr-bg:#ECE8F7;
+  --ficha:#18517F; --ficha-bg:#E3EDF7;
+  --check:#4F4B3A; --check-bg:#F8F7F1;
+  --warn:#8A2C0D; --warn-bg:#FCEDE6;
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Charter,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --measure:44rem;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:5rem}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.0625rem/1.6 var(--sans);-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--serif);line-height:1.2;color:var(--ink);margin:0 0 .5em}
+h2{font-size:clamp(1.75rem,4vw,2.4rem);font-weight:600}
+h3{font-size:1.4rem;font-weight:600;margin-top:1.6em}
+h4{font-size:1.15rem;font-weight:600}
+p,ul,ol,dl{margin:0 0 1em}
+a{color:#0F4C66;text-underline-offset:.15em}
+a:hover{color:#08303F}
+:focus-visible{outline:3px solid #111;outline-offset:2px;box-shadow:0 0 0 6px #FFD54A}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:1rem;top:-4rem;background:#FFD54A;color:#111;padding:.6rem 1rem;z-index:50;font-weight:600}
+.skip:focus{top:1rem}
+
+/* Cabecera */
+.masthead{background:var(--surface);border-bottom:1px solid var(--line)}
+.masthead .wrap{padding:1.6rem 1.25rem 1.2rem}
+.byline{margin:0 0 .3rem;color:var(--muted);font-size:.95rem;letter-spacing:.01em}
+.masthead h1{font-size:clamp(1.9rem,5.5vw,3rem);font-weight:600;margin:0}
+.wrap{max-width:62rem;margin:0 auto}
+
+/* Navegación */
+.mainnav{position:sticky;top:0;z-index:20;background:var(--nav);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.mainnav ul{list-style:none;margin:0 auto;padding:0 .5rem;display:flex;gap:.25rem;max-width:62rem;overflow-x:auto;scrollbar-width:thin}
+.mainnav li{flex:0 0 auto}
+.mainnav a{display:block;color:var(--nav-ink);text-decoration:none;padding:.85rem .85rem .7rem;font-weight:500;border-bottom:4px solid transparent;white-space:nowrap;min-height:48px}
+.mainnav a:hover{background:rgba(255,255,255,.08)}
+.mainnav a[aria-current="page"]{border-bottom-color:#FFD54A;font-weight:700}
+.mainnav a:focus-visible{outline-offset:-3px}
+
+main{padding:2rem 1.25rem 3rem}
+.view{max-width:62rem;margin:0 auto}
+.view > *:not(.wide){max-width:var(--measure)}
+.view .wide{max-width:none}
+.view-head{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:.5rem 1rem;max-width:none !important}
+.view-head h2:focus,[tabindex="-1"]:focus{outline:none;box-shadow:none}
+.crumbs{font-size:.95rem;color:var(--muted);margin-bottom:.4rem}
+.crumbs a{color:var(--muted)}
+.lead{font-size:1.25rem;line-height:1.5}
+.muted{color:var(--muted)}
+.small{font-size:.92rem}
+
+/* Botones */
+button,.btn{font:inherit;font-weight:600;cursor:pointer;border-radius:6px;min-height:46px;padding:.55rem 1rem;border:2px solid var(--action);background:var(--action);color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;line-height:1.25;text-align:left}
+button:hover,.btn:hover{background:var(--action-hover);border-color:var(--action-hover);color:#fff}
+button.secondary,.btn.secondary{background:var(--surface);color:var(--action)}
+button.secondary:hover,.btn.secondary:hover{background:#E4ECEC;color:var(--action-hover)}
+button.link{background:none;border:none;color:#0F4C66;text-decoration:underline;padding:.25rem .1rem;min-height:36px;font-weight:600}
+button.link:hover{color:#08303F;background:none}
+.btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin:.9rem 0 .4rem}
+.printbtn{background:var(--surface);color:var(--action);font-weight:600}
+
+/* Bloques copiables */
+.slip{position:relative;margin:1.4rem 0 1.6rem;padding:1.6rem 1.1rem 1rem;border-radius:4px;max-width:var(--measure)}
+.slip-tab{position:absolute;top:-.85rem;left:.9rem;margin:0;padding:.15rem .6rem;font:700 .82rem/1.4 var(--sans);letter-spacing:.06em;border-radius:3px;color:#fff}
+.slip-title{font-family:var(--sans);font-size:1.05rem;font-weight:700;margin:0 0 .6rem}
+.slip-text{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:.85rem 1rem}
+.slip-text p:last-child{margin-bottom:0}
+.slip-text p{white-space:pre-wrap}
+.slip-prompt{background:var(--prompt-bg);border-left:7px solid var(--prompt)}
+.slip-prompt .slip-tab{background:var(--prompt)}
+.slip-datos{background:var(--data-bg);border:2px dashed var(--data)}
+.slip-datos .slip-tab{background:var(--data)}
+.slip-instr{background:var(--instr-bg);border:5px double var(--instr)}
+.slip-instr .slip-tab{background:var(--instr)}
+.slip-ficha{background:var(--ficha-bg);border:2px solid var(--ficha);border-top-width:7px}
+.slip-ficha .slip-tab{background:var(--ficha)}
+.slip-where{font-size:.95rem;margin:-.2rem 0 .7rem}
+.slip-status{min-height:1.5em;margin:.2rem 0 0;font-size:.95rem;font-weight:600}
+.slip-status.ok::before{content:"✓ "}
+.slip-status.err{color:var(--warn)}
+.slip-status.err::before{content:"⚠ "}
+.slip details.srcbody > summary{cursor:pointer;font-weight:600;padding:.3rem 0;min-height:44px;display:flex;align-items:center}
+.slip-fields{border:0;margin:0 0 .9rem;padding:0}
+.slip-fields legend{font-weight:700;padding:0;margin-bottom:.4rem}
+.field{margin:0 0 .9rem}
+.field label{display:block;font-weight:600;margin-bottom:.15rem}
+.field .hint{display:block;font-size:.92rem;color:var(--muted);margin-bottom:.3rem}
+.field input,.field textarea,.field select{width:100%;font:inherit;padding:.55rem .65rem;border:2px solid #7D8C92;border-radius:4px;background:#fff;color:var(--ink);min-height:46px}
+.field textarea{min-height:4.2em;resize:vertical}
+.field [aria-invalid="true"]{border-color:var(--warn);border-style:dashed}
+.field .err-msg{display:block;color:var(--warn);font-size:.92rem;font-weight:600}
+.field .err-msg:empty{display:none}
+.sugg{font-size:.92rem;margin:.35rem 0 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:.15rem .5rem}
+.sugg q{quotes:"«" "»"}
+.preview-label{font-size:.92rem;font-weight:700;margin:.2rem 0 .3rem}
+mark.missing{background:#fff;color:var(--warn);border:1px dashed var(--warn);padding:0 .25rem;border-radius:3px;font-weight:600}
+
+/* Comprobaciones */
+.checks{background:var(--check-bg);border:1px solid #B9B6A3;border-left:4px solid var(--check);padding:1rem 1.1rem .4rem;margin:1.2rem 0;border-radius:3px}
+.checks h4{font-family:var(--sans);font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.checks h4::before{content:"☐ ";font-weight:400}
+.checks ul{list-style:none;padding:0}
+.checks li{margin:0 0 .55rem}
+.checks label{display:flex;gap:.6rem;align-items:flex-start;cursor:pointer}
+input[type=checkbox],input[type=radio]{width:1.3rem;height:1.3rem;margin:.18rem 0 0;flex:0 0 auto;accent-color:var(--action)}
+.note{border-left:4px solid var(--line);padding:.2rem 0 .2rem 1rem;margin:1rem 0}
+.callout{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:1rem 1.2rem;margin:1.2rem 0}
+.callout > :last-child{margin-bottom:0}
+.callout.key{border:2px solid var(--ink)}
+.callout.warn{background:var(--warn-bg);border-color:#D9A792}
+.where{display:inline-block;font-size:.95rem;border:1px solid var(--ink);border-radius:999px;padding:.15rem .75rem;margin:0 0 .8rem;background:var(--surface)}
+
+/* Etapas */
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1.2rem 1.25rem .6rem;margin:1.4rem 0;max-width:calc(var(--measure) + 2.5rem)}
+.stage > *{max-width:var(--measure)}
+.stage-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.4rem 1rem;max-width:none}
+.stage-head h3{margin:0 0 .5rem}
+.stage-num{display:block;font-family:var(--sans);font-size:.9rem;font-weight:700;color:var(--muted);letter-spacing:.02em;margin-bottom:.15rem}
+.stage-done{display:flex;align-items:center;gap:.45rem;font-size:.92rem;font-weight:600;color:var(--muted);cursor:pointer;min-height:44px}
+.stage-done:has(input:checked){color:var(--ink)}
+.stage-done:has(input:checked)::after{content:"(marcada)";font-weight:400}
+
+/* Detalles */
+details.more{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:1rem 0;padding:0}
+details.more + details.more{border-top:0;margin-top:-1rem}
+details.more > summary{cursor:pointer;padding:.75rem 0;font-weight:600;list-style:none;display:flex;gap:.6rem;align-items:baseline;min-height:48px}
+details.more > summary::-webkit-details-marker{display:none}
+details.more > summary::before{content:"+";font-weight:700;width:1.1rem;flex:0 0 auto;text-align:center}
+details.more[open] > summary::before{content:"−"}
+details.more > .inner{padding:0 0 .9rem 1.7rem}
+
+/* OCDTF */
+.ocdtf{max-width:var(--measure);margin:1.2rem 0}
+.ocdtf details.more > summary{align-items:center}
+.ocdtf .letter{font-family:var(--serif);font-size:2rem;font-weight:700;width:2.2rem;text-align:center;line-height:1}
+.ocdtf .word{font-weight:700;min-width:6.2rem}
+.ocdtf .q{font-weight:400}
+.ocdtf details.more > summary::before{order:3;margin-left:auto}
+
+/* Tablas */
+.table-wrap{overflow-x:auto;max-width:var(--measure)}
+table{border-collapse:collapse;width:100%;background:var(--surface);margin:0 0 1.2rem}
+th,td{border:1px solid var(--line);padding:.6rem .75rem;text-align:left;vertical-align:top}
+th{background:#E3E9E9;font-weight:700}
+@media (max-width:560px){
+  table.stack thead{position:absolute;left:-9999px}
+  table.stack tr{display:block;border:1px solid var(--line);margin-bottom:.6rem}
+  table.stack td,table.stack th{display:block;border:0}
+  table.stack tbody th{background:#E3E9E9}
+}
+
+/* Recorridos */
+.route{list-style:none;padding:0;margin:1.2rem 0;counter-reset:r;display:grid;gap:.7rem}
+.route li{counter-increment:r;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem .8rem 3.4rem;position:relative}
+.route li::before{content:counter(r);position:absolute;left:.9rem;top:.75rem;font:700 1.5rem/1 var(--serif);color:var(--ink)}
+.route strong{display:block}
+.flow{list-style:none;padding:0;margin:1rem 0;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;max-width:none !important}
+.flow li{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.25rem .8rem;font-size:.95rem}
+.flow li:not(:last-child)::after{content:" →";color:var(--muted)}
+.time-eq{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:.8rem 0 1rem}
+.time-eq span{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:.3rem .7rem;font-weight:600}
+.time-eq b{font-weight:400;color:var(--muted)}
+
+/* Entrada */
+.hero{background:var(--surface);border:2px solid var(--ink);border-radius:6px;padding:1.4rem 1.4rem .6rem;margin:0 0 1.6rem;max-width:var(--measure)}
+.hero p.big{font-family:var(--serif);font-size:clamp(1.5rem,3.6vw,2.1rem);line-height:1.25;margin-bottom:.6rem}
+.legend-list{list-style:none;padding:0;display:grid;gap:.9rem}
+.legend-list li{display:grid;grid-template-columns:minmax(0,15rem) 1fr;gap:.4rem 1rem;align-items:start}
+.legend-list .tag{display:inline-block;font:700 .8rem/1.4 var(--sans);letter-spacing:.06em;color:#fff;padding:.15rem .55rem;border-radius:3px;justify-self:start}
+@media (max-width:560px){.legend-list li{grid-template-columns:1fr}}
+
+/* Tarjetas de nivel */
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(16.5rem,1fr));gap:1rem;margin:1.4rem 0}
+.level{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--ink);border-radius:6px;padding:1.1rem 1.15rem 1.2rem;display:flex;flex-direction:column}
+.level h3{margin-top:0;font-size:1.3rem}
+.level .lvl{display:block;font:700 .95rem/1.3 var(--sans);color:var(--muted);margin-bottom:.2rem}
+.level dl{margin:0 0 1rem}
+.level dt{font-weight:700;font-size:.92rem;margin-top:.5rem}
+.level dd{margin:0}
+.level .btn{margin-top:auto;align-self:flex-start}
+.level-basico{border-top-style:solid}
+.level-intermedio{border-top-style:double;border-top-width:8px}
+.level-avanzado{border-top-style:dashed}
+.practice-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.2rem 0 1.4rem}
+.practice-action{background:var(--surface);border:2px solid var(--action);border-radius:6px;padding:1.1rem 1.15rem;display:flex;flex-direction:column}
+.practice-action h3{margin:0 0 .5rem;font-size:1.3rem}
+.practice-action .btn{margin-top:auto;align-self:flex-start}
+.practice-action .stage-num{margin-bottom:.35rem}
+@media(max-width:640px){.practice-actions{grid-template-columns:1fr}}
+
+/* Selector de modo */
+.mode-toggle{border:2px solid var(--ink);border-radius:6px;background:var(--surface);padding:.7rem 1rem .5rem;margin:1rem 0 1.4rem;max-width:var(--measure)}
+.mode-toggle legend{font-weight:700;padding:0 .3rem}
+.mode-toggle .opts{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem}
+.mode-toggle label,.radio-row label{display:flex;gap:.5rem;align-items:flex-start;min-height:44px;cursor:pointer;font-weight:600}
+.mode-toggle p{margin:.2rem 0 .4rem;font-size:.92rem;color:var(--muted)}
+.radio-row{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:.6rem 1rem .4rem;margin:1rem 0;max-width:var(--measure)}
+.radio-row legend{font-weight:700;padding:0 .3rem}
+.radio-row .opts{display:flex;flex-wrap:wrap;gap:.2rem 1.6rem}
+
+/* Visibilidad por modo y nivel */
+body[data-mode="ficticio"] [data-mode-show="adaptar"],
+body[data-mode="adaptar"] [data-mode-show="ficticio"]{display:none !important}
+body:not([data-level="basico"]) [data-level-show="basico"],
+body:not([data-level="intermedio"]) [data-level-show="intermedio"],
+body:not([data-level="avanzado"]) [data-level-show="avanzado"]{display:none !important}
+
+.reflect textarea{min-height:5.5em}
+footer{border-top:1px solid var(--line);background:var(--surface);padding:1.4rem 1.25rem;color:var(--muted);font-size:.95rem}
+footer .wrap > *{max-width:var(--measure)}
+dialog{max-width:min(40rem,92vw);width:100%;border:2px solid var(--ink);border-radius:6px;padding:1.2rem}
+dialog::backdrop{background:rgba(10,20,25,.55)}
+dialog textarea{width:100%;min-height:14rem;font:inherit;padding:.6rem;border:2px solid #7D8C92;border-radius:4px}
+noscript p{background:var(--warn-bg);padding:1rem;border:1px solid #D9A792;max-width:var(--measure);margin:1rem auto}
+
+@media (max-width:640px){
+  body{font-size:1rem}
+  .mainnav ul{padding:0 .3rem;gap:0;scroll-padding-inline:2rem}
+  .mainnav a{padding:.7rem .65rem .55rem;min-height:44px;font-size:.95rem;border-bottom-width:3px}
+  .masthead .wrap{padding:1rem 1rem .8rem}
+  html{scroll-padding-top:4rem}
+  main{padding:1.4rem 1rem 2.4rem}
+  .stage{padding:1rem .9rem .5rem}
+  .slip{padding:1.5rem .8rem .9rem}
+  .btnrow button{width:100%;justify-content:center}
+  .lead{font-size:1.12rem}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;transition:none !important;animation:none !important}}
+
+@media print{
+  @page{margin:1.6cm}
+  body{background:#fff;font-size:11pt;color:#000}
+  .mainnav,.skip,.btnrow,.slip-fields,.sugg,.mode-toggle,.radio-row,.printbtn,.no-print,footer .no-print,dialog,.slip-status,.stage-done,.preview-label{display:none !important}
+  main{padding:0}
+  .masthead{border:0}
+  .masthead .wrap{padding:0 0 .6rem}
+  .view[hidden]{display:none !important}
+  .stage,.slip,.checks,.callout,.hero,.level{border-color:#555 !important;background:#fff !important}
+  .slip,.checks,.level,.route li{break-inside:avoid}
+  h2,h3,h4,.stage-head,.slip-tab{break-after:avoid}
+  .btn,.crumbs,details.srcbody > summary{display:none !important}
+  .mainnav{position:static}
+  .slip-tab{color:#000 !important;background:#fff !important;border:1px solid #000}
+  .slip-text{border-color:#777}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em;word-break:break-all}
+  details.more > summary::before{content:""}
+  mark.missing{border:1px dashed #000}
+}
+</style>
+</head>
+<body data-mode="ficticio" data-level="basico">
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="byline">Diego Huidobro · AITIC · ITCL</p>
+    <h1>Jornada 1 — Repaso y práctica</h1>
+  </div>
+</header>
+
+<nav class="mainnav" aria-label="Secciones de la página">
+  <ul>
+    <li><a href="#inicio" data-nav="inicio">Empieza aquí</a></li>
+    <li><a href="#metodo" data-nav="metodo">Método OCDTF</a></li>
+    <li><a href="#organiza" data-nav="organiza">Organiza y revisa</a></li>
+    <li><a href="#caso" data-nav="caso">Caso de la feria</a></li>
+    <li><a href="#practicas" data-nav="practicas">Elige una práctica</a></li>
+  </ul>
+</nav>
+
+<noscript><p>Esta página necesita JavaScript para mostrar las secciones, copiar los textos y completar las plantillas. Actívalo en el navegador o abre el archivo en otro navegador.</p></noscript>
+
+<main id="main">
+
+<!-- ============ EMPIEZA AQUÍ ============ -->
+<section class="view" id="v-inicio" data-route="inicio" data-title="Empieza aquí" aria-labelledby="h-inicio">
+  <div class="view-head"><h2 id="h-inicio" tabindex="-1">Empieza aquí</h2></div>
+
+  <div class="hero">
+    <p class="big">Elige una práctica y hazla bien. Con una basta: no hace falta hacer los tres niveles.</p>
+    <p>Esta página es un repaso de la jornada 1 y una práctica opcional. Te ayuda a empezar una tarea con IA, explicar el encargo, revisar el resultado y guardar una petición útil.</p>
+    <div class="btnrow">
+      <a class="btn" href="#practicas">Ver las tres prácticas</a>
+      <a class="btn secondary" href="#metodo">Repasar el método</a>
+    </div>
+  </div>
+
+  <h3>Un recorrido posible</h3>
+  <ol class="route">
+    <li><strong>Repasa lo esencial</strong> «Método OCDTF» y «Organiza y revisa». Puedes volver a ellos en cualquier momento desde el menú superior.</li>
+    <li><strong>Prepara tu proyecto</strong> Instrucciones, ficha de contexto y fuentes. Es el primer paso de las tres prácticas.</li>
+    <li><strong>Haz una práctica</strong> Básico, intermedio o avanzado. Cada una es independiente y no exige haber hecho otra.</li>
+    <li><strong>Reflexiona</strong> Tres preguntas breves para traer una duda a la próxima clase.</li>
+  </ol>
+
+  <div class="callout">
+    <h3 style="margin-top:0">Antes de empezar</h3>
+    <ul>
+      <li>Puedes trabajar con el caso ficticio Accesorios Norte o con una situación de tu empresa preparada sin datos sensibles.</li>
+      <li>Esta página no envía nada a ChatGPT, a Claude ni a ningún otro servicio. Copias el texto y lo pegas tú en tu herramienta autorizada.</li>
+      <li>Lo que escribas aquí se pierde al cerrar o recargar la página. No se envía automáticamente; al terminar puedes abrir un borrador de correo para compartir tu reflexión si quieres.</li>
+      <li>Los ejercicios no necesitan conectores, agentes ni una memoria activada. No hace falta memorizar los prompts.</li>
+    </ul>
+  </div>
+
+  <h3>Cómo leer los bloques</h3>
+  <p>Los títulos, pasos y comprobaciones son indicaciones para ti. Solo se copia el texto del bloque, y cada botón dice exactamente qué copia.</p>
+  <ul class="legend-list">
+    <li><span class="tag" style="background:var(--prompt)">PROMPT</span><span>El mensaje que pegas en la IA. Franja verde a la izquierda.</span></li>
+    <li><span class="tag" style="background:var(--instr)">INSTRUCCIONES PARA EL PROYECTO</span><span>Se pegan en la configuración del proyecto, no como un mensaje más. Doble borde.</span></li>
+    <li><span class="tag" style="background:var(--ficha)">FICHA DE CONTEXTO</span><span>La completas con tu caso y la guardas como fuente o la pegas en el primer chat. Borde superior grueso.</span></li>
+    <li><span class="tag" style="background:var(--data)">DATOS PARA COPIAR</span><span>Fuentes del caso ficticio. Se añaden en la etapa que indica cada práctica. Borde discontinuo.</span></li>
+    <li><span class="tag" style="background:var(--check)">☐ Comprueba</span><span>Criterios para revisar tú el resultado. No se copian. Marcar una casilla es una ayuda personal, no una validación.</span></li>
+  </ul>
+
+  <p class="note">La jornada 1 es del 6 de octubre de 2026. Las demás fechas que verás (15, 20, 21, 22, 23, 24 y 25 de octubre) pertenecen al caso ficticio, no al calendario del curso.</p>
+</section>
+
+<!-- ============ MÉTODO ============ -->
+<section class="view" id="v-metodo" data-route="metodo" data-title="Método OCDTF" aria-labelledby="h-metodo" hidden>
+  <div class="view-head"><h2 id="h-metodo" tabindex="-1">Método OCDTF</h2></div>
+  <p class="lead">Habla con la IA de forma natural. Un prompt es el mensaje con el que pides un trabajo a la IA. Puedes escribirlo o dictarlo.</p>
+  <p>Imagina que explicas una tarea a una persona que necesita conocer la situación: qué quieres conseguir, qué datos tiene y cómo debe entregártelo. Dar más texto no siempre ayuda; aporta lo relevante.</p>
+
+  <h3>Cinco preguntas que te orientan</h3>
+  <p class="muted small">Pulsa cada letra para ver una breve explicación con el ejemplo del correo.</p>
+  <div class="ocdtf">
+    <details class="more"><summary><span class="letter" aria-hidden="true">O</span><span class="word">Objetivo</span><span class="q">¿Qué quiero conseguir y para quién?</span></summary>
+      <div class="inner"><p>Di qué resultado necesitas y quién lo va a recibir. En el ejemplo: un correo para que el proveedor confirme la entrega.</p></div></details>
+    <details class="more"><summary><span class="letter" aria-hidden="true">C</span><span class="word">Contexto</span><span class="q">¿Qué necesita saber para entender la situación?</span></summary>
+      <div class="inner"><p>Cuenta lo que una persona que llega nueva necesitaría saber. En el ejemplo: se prepara una feria el 24 y 25 y el material debe quedar listo antes del 22.</p></div></details>
+    <details class="more"><summary><span class="letter" aria-hidden="true">D</span><span class="word">Datos</span><span class="q">¿Con qué información concreta debe trabajar?</span></summary>
+      <div class="inner"><p>Aporta la información con la que debe trabajar, sin añadir lo que no hace falta. En el ejemplo: pedido 4583, 80 álbumes, entrega prevista el 21 y envío sin confirmar.</p></div></details>
+    <details class="more"><summary><span class="letter" aria-hidden="true">T</span><span class="word">Tono</span><span class="q">¿Cómo quiero que se exprese?</span></summary>
+      <div class="inner"><p>Indica cómo debe sonar según el destinatario. En el ejemplo: cordial y directo, porque hay buena relación con el proveedor.</p></div></details>
+    <details class="more"><summary><span class="letter" aria-hidden="true">F</span><span class="word">Formato</span><span class="q">¿Cómo quiero recibir el resultado?</span></summary>
+      <div class="inner"><p>Di la forma y la extensión. En el ejemplo: asunto y unas 100 palabras, con la firma de Bruno.</p></div></details>
+  </div>
+
+  <div class="callout key">
+    <p><strong>OCDTF es una chuleta, no una estructura obligatoria.</strong> No obliga a usar cinco apartados ni a rellenarlos en todos los mensajes. Si falta un dato importante, puedes pedir que te lo pregunte.</p>
+  </div>
+
+  <h3>Un ejemplo escrito de forma natural</h3>
+  <p>Fíjate en que el ejemplo no usa apartados y aun así responde a las cinco preguntas. También marca límites: no da la entrega por hecha ni autoriza costes.</p>
+  <p class="where"><strong>Dónde:</strong> en cualquier chat. Contiene todos sus datos: no necesita archivos adjuntos.</p>
+  <div class="mount" data-mount="metodoCorreo" data-h="4"></div>
+
+  <h3>Mejorar conversando</h3>
+  <p>Puedes pedir una versión más breve, más clara o adaptada a otro destinatario. Después del cambio, vuelve a comprobar los hechos: una mejora de estilo también puede alterar un dato.</p>
+  <p class="where"><strong>Dónde:</strong> en el mismo chat, después del primer borrador.</p>
+  <div class="mount" data-mount="mejora" data-h="4"></div>
+</section>
+
+<!-- ============ ORGANIZA Y REVISA ============ -->
+<section class="view" id="v-organiza" data-route="organiza" data-title="Organiza y revisa" aria-labelledby="h-organiza" hidden>
+  <div class="view-head"><h2 id="h-organiza" tabindex="-1">Organiza y revisa</h2></div>
+  <p class="lead">Cuatro recursos con funciones distintas. Ninguno sustituye tu revisión.</p>
+
+  <div class="table-wrap">
+  <table class="stack">
+    <thead><tr><th scope="col">Recurso</th><th scope="col">Para qué sirve</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Chat</th><td>Trabajar una tarea y pedir ajustes en la conversación. Un chat largo puede dejar fuera detalles relevantes: vuelve a aportar los datos críticos.</td></tr>
+      <tr><th scope="row">Proyecto</th><td>Agrupar conversaciones, fuentes e instrucciones de un mismo trabajo. Puede usar ese contexto según sus funciones y ajustes; comprueba que ha leído el archivo necesario.</td></tr>
+      <tr><th scope="row">Instrucciones</th><td>Escribir preferencias y reglas de trabajo: idioma, destinatario, extensión o límites. No sustituyen los datos del encargo ni garantizan una respuesta correcta.</td></tr>
+      <tr><th scope="row">Memoria</th><td>Ayudar a personalizar respuestas. Es opcional y no conserva todos los detalles. Los procedimientos importantes deben quedar documentados.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Una organización mínima</h3>
+  <p>Pon nombres claros: Feria octubre, Acta del 15 o Seguimiento del 20. Para una tarea aislada basta un chat; para un trabajo recurrente, un proyecto puede resultar útil. Identifica la fuente y la fecha de cada encargo. Si falta acceso al documento, vuelve a pegarlo o adjuntarlo: no aceptes una respuesta basada en datos supuestos.</p>
+
+  <div class="checks" role="group" aria-labelledby="h-revisar">
+    <h4 id="h-revisar">Qué revisar antes de utilizar una respuesta</h4>
+    <ol style="padding-left:1.3rem">
+      <li><strong>Datos:</strong> nombres, cantidades, fechas e importes frente a la fuente original.</li>
+      <li><strong>Estados:</strong> previsto, confirmado, pendiente o realizado.</li>
+      <li><strong>Compromisos:</strong> no debe inventar descuentos, gastos ni decisiones.</li>
+      <li><strong>Utilidad:</strong> responde al objetivo, tiene un tono adecuado y se entiende.</li>
+    </ol>
+  </div>
+  <div class="callout key"><p><strong>Otra IA puede ayudar a buscar errores. Que ambas coincidan no valida el contenido:</strong> comprueba los puntos importantes en la fuente.</p></div>
+
+  <h3>Datos de empresa</h3>
+  <p>Practica con datos ficticios o anonimizados. Para trabajo real, usa herramientas y cuentas autorizadas y aporta solo lo necesario. Antes de grabar o subir una reunión, comprueba el procedimiento de la empresa y las condiciones aplicables a ese uso.</p>
+  <details class="more"><summary>Memoria y controles de datos en ChatGPT</summary>
+    <div class="inner">
+      <p>En ChatGPT, memoria y uso de conversaciones para mejorar modelos son controles distintos. Desactivar «Mejorar el modelo para todos» limita ese uso de nuevas conversaciones, pero no elimina el historial. Pedir que olvide algo tampoco borra automáticamente las fuentes donde aparece.</p>
+      <p>Ninguno de estos ajustes es, por sí solo, una garantía de confidencialidad ni de eliminación de datos. Sigue el procedimiento de tu empresa.</p>
+    </div>
+  </details>
+
+  <h3>Guardar y decidir cuándo compensa</h3>
+  <p>Guarda una petición que hayas probado, con un nombre sencillo, los datos que cambian y lo que debes revisar. Empieza por una tarea frecuente.</p>
+  <p>Compara el tiempo total con tu forma habitual de trabajar:</p>
+  <div class="time-eq" role="group" aria-label="Tiempo total con IA: preparar más generar más revisar, comparado con tu forma habitual">
+    <span>Preparar</span><b>+</b><span>Generar</span><b>+</b><span>Revisar</span><b>frente a</b><span>Tu forma habitual</span>
+  </div>
+  <p>Si no ahorra trabajo ni mejora el resultado, no necesitas usar IA para esa tarea.</p>
+
+  <p class="note">Las pantallas y funciones pueden variar entre herramientas, planes y cuentas. Los ejercicios no necesitan conectores, agentes ni una memoria activada. Utiliza ChatGPT o la herramienta autorizada con la que te sientas cómodo.</p>
+
+  <h3>Documentación oficial</h3>
+  <p class="small muted">Referencias de producto revisadas el 6 de octubre de 2026. Se abren en la web de OpenAI y necesitan conexión a Internet. Las pantallas y funciones descritas pueden haber cambiado.</p>
+  <ul>
+    <li><a href="https://help.openai.com/en/articles/10169521-projects-in-chatgpt" target="_blank" rel="noopener noreferrer">Proyectos</a></li>
+    <li><a href="https://help.openai.com/en/articles/8590148-memory-in-chatgpt" target="_blank" rel="noopener noreferrer">Memoria</a></li>
+    <li><a href="https://help.openai.com/en/articles/7730893-data-controls-faq" target="_blank" rel="noopener noreferrer">Controles de datos</a></li>
+    <li><a href="https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth" target="_blank" rel="noopener noreferrer">Fiabilidad</a></li>
+  </ul>
+  <p>Guía adicional para organizar proyectos: <a href="https://learn.chatgpt.com/docs/projects?surface=app" target="_blank" rel="noopener noreferrer">proyectos y conversaciones</a>.</p>
+</section>
+
+<!-- ============ CASO DE LA FERIA ============ -->
+<section class="view" id="v-caso" data-route="caso" data-title="Caso de la feria" aria-labelledby="h-caso" hidden>
+  <div class="view-head"><h2 id="h-caso" tabindex="-1">Caso de la feria</h2></div>
+  <p class="lead">Accesorios Norte es un caso ficticio: empresa, personas y datos inventados para practicar.</p>
+  <p>Los textos son extractos didácticos del caso usado en clase. Puedes copiarlos sin abrir otros archivos. Las fechas del caso pertenecen a octubre de 2026; la jornada 1 es del 6 de octubre.</p>
+
+  <dl class="callout">
+    <dt><strong>Quién participa</strong></dt>
+    <dd>Alicia, operaciones; Bruno, comercial; Celia, administración.</dd>
+    <dt><strong>Qué preparan</strong></dt>
+    <dd>Una feria los días 24 y 25 de octubre de 2026.</dd>
+  </dl>
+
+  <p>Hay dos fuentes con fechas distintas. Léelas por separado: cada una refleja lo que se sabía en su fecha.</p>
+
+  <h3>Fuente A · reunión del 15 de octubre</h3>
+  <div class="mount" data-mount="fuenteA" data-h="4"></div>
+
+  <h3>Fuente B · actualización del 20 de octubre</h3>
+  <p>Puedes consultarla como repaso. En la práctica avanzada solo se usa en la etapa 2, después de guardar la tabla inicial; en intermedio no se usa.</p>
+  <div class="mount" data-mount="fuenteB" data-h="4" data-collapsed="1"></div>
+
+  <h3>Recorrido de trabajo</h3>
+  <ol class="flow" aria-label="Recorrido de trabajo">
+    <li>reunión</li><li>acta y acciones</li><li>comunicación</li><li>checklist</li><li>información nueva</li><li>seguimiento</li><li>resumen para decidir</li>
+  </ol>
+  <div class="callout key"><p><strong>Estos pasos organizan información; no ejecutan tareas ni envían correos automáticamente.</strong></p></div>
+  <p class="note">La práctica básica usa su propio hilo de correos del 15 y 16 de octubre. Es una ampliación ficticia independiente y está dentro de esa práctica; no se mezcla con la fuente B.</p>
+</section>
+
+<!-- ============ ELIGE UNA PRÁCTICA ============ -->
+<section class="view" id="v-practicas" data-route="practicas" data-title="Elige una práctica" aria-labelledby="h-practicas" hidden>
+  <div class="view-head"><h2 id="h-practicas" tabindex="-1">Elige una práctica</h2></div>
+  <p class="lead">Basta con una. Cada práctica es un trabajo completo por etapas, empieza preparando un proyecto y no exige haber hecho otro nivel.</p>
+
+  <div class="practice-actions wide" aria-label="Antes y después de la práctica">
+    <article class="practice-action" aria-labelledby="practice-prepare">
+      <span class="stage-num">Antes de practicar</span>
+      <h3 id="practice-prepare">Prepara tu proyecto</h3>
+      <p>Reúne las instrucciones, el contexto y las fuentes que vas a utilizar. Es el punto de partida de los tres niveles.</p>
+      <a class="btn" href="#preparar">Preparar mi proyecto</a>
+    </article>
+    <article class="practice-action" aria-labelledby="practice-reflect">
+      <span class="stage-num">Al terminar</span>
+      <h3 id="practice-reflect">Reflexión final</h3>
+      <p>Anota qué hiciste, qué revisaste y qué duda te queda. Puedes compartir tus respuestas con Diego por correo.</p>
+      <a class="btn" href="#reflexion">Completar mi reflexión</a>
+    </article>
+  </div>
+
+  <div class="mount-mode"></div>
+
+  <div class="levels wide">
+    <article class="level level-basico" aria-labelledby="c-basico">
+      <span class="lvl">Básico</span>
+      <h3 id="c-basico">Dos comunicaciones</h3>
+      <p>Pasar de un encargo sencillo a una comunicación basada en fuentes.</p>
+      <dl>
+        <dt>Orientación</dt><dd>20–30 minutos con fuentes breves.</dd>
+        <dt>Terminas con</dt><dd>Un proyecto preparado, dos borradores para destinatarios distintos y una petición reutilizable.</dd>
+        <dt>Fuentes</dt><dd>Uno o dos correos breves, o el hilo ficticio del básico.</dd>
+      </dl>
+      <a class="btn" href="#basico">Empezar el básico</a>
+    </article>
+    <article class="level level-intermedio" aria-labelledby="c-intermedio">
+      <span class="lvl">Intermedio</span>
+      <h3 id="c-intermedio">Coordinar una reunión</h3>
+      <p>Convertir información dispersa en un plan comprensible para el equipo.</p>
+      <dl>
+        <dt>Orientación</dt><dd>30–40 minutos con una reunión breve.</dd>
+        <dt>Terminas con</dt><dd>Acta, tabla de acciones, propuesta de flujo y dos avisos personales.</dd>
+        <dt>Fuentes</dt><dd>Notas o transcripción breve de una reunión, o la fuente A.</dd>
+      </dl>
+      <a class="btn" href="#intermedio">Empezar el intermedio</a>
+    </article>
+    <article class="level level-avanzado" aria-labelledby="c-avanzado">
+      <span class="lvl">Avanzado</span>
+      <h3 id="c-avanzado">Seguimiento y salida útil</h3>
+      <p>Mantener un seguimiento fiable y convertirlo en una herramienta útil.</p>
+      <dl>
+        <dt>Orientación</dt><dd>40–50 minutos con fuentes breves y una primera versión sencilla.</dd>
+        <dt>Terminas con</dt><dd>Una tabla inicial revisada, una tabla actualizada y una sola salida: dashboard local o informe para dirección.</dd>
+        <dt>Fuentes</dt><dd>Una reunión y una actualización posterior, o las fuentes A y B en etapas distintas.</dd>
+      </dl>
+      <a class="btn" href="#avanzado">Empezar el avanzado</a>
+    </article>
+  </div>
+
+  <p class="note">Los tiempos son orientativos e incluyen preparar, generar y revisar. No son un cronómetro ni una garantía de ahorro.</p>
+  <div class="btnrow no-print">
+    <a class="btn secondary" href="#preparar">Prepara tu proyecto</a>
+    <a class="btn" href="#reflexion">Ir a la reflexión final</a>
+  </div>
+</section>
+
+<!-- ============ PREPARA TU PROYECTO ============ -->
+<section class="view" id="v-preparar" data-route="preparar" data-group="practicas" data-title="Prepara tu proyecto" aria-labelledby="h-preparar" hidden>
+  <nav class="crumbs" aria-label="Ruta"><a href="#practicas">Elige una práctica</a> › Prepara tu proyecto</nav>
+  <div class="view-head"><h2 id="h-preparar" tabindex="-1">Prepara tu proyecto</h2></div>
+  <p class="lead">Las tres prácticas empiezan aquí. El proyecto te ayuda a practicar organización; para un correo aislado basta un chat.</p>
+
+  <div class="mount-mode"></div>
+
+  <fieldset class="radio-row">
+    <legend>Práctica que vas a preparar</legend>
+    <div class="opts">
+      <label><input type="radio" name="level" value="basico" checked> Básico</label>
+      <label><input type="radio" name="level" value="intermedio"> Intermedio</label>
+      <label><input type="radio" name="level" value="avanzado"> Avanzado</label>
+    </div>
+  </fieldset>
+
+  <section class="stage" aria-labelledby="p-s1">
+    <div class="stage-head"><h3 id="p-s1"><span class="stage-num">Paso 1</span>Elige una situación y prepara sus fuentes</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar este paso</label></div>
+
+    <div data-mode-show="ficticio">
+      <p>Trabajas con el caso ficticio Accesorios Norte. Las fuentes ya están en esta página y se añaden en la etapa que indica la práctica:</p>
+      <p data-level-show="basico"><strong>Básico:</strong> el encargo de la parte 1 contiene sus datos. En la parte 2 añadirás <strong>Correos_practica.txt</strong>, el hilo exclusivo del básico.</p>
+      <p data-level-show="intermedio"><strong>Intermedio:</strong> en la parte 1 añadirás <strong>Reunion_15.txt</strong> (fuente A). No se usa la fuente B.</p>
+      <p data-level-show="avanzado"><strong>Avanzado:</strong> en la parte 1 añadirás <strong>Reunion_15.txt</strong> (fuente A). La actualización posterior solo se añade en la etapa 2.</p>
+      <p>No subas estos apuntes completos al proyecto de práctica.</p>
+    </div>
+
+    <div data-mode-show="adaptar">
+      <p>Usa un asunto acotado de tu empresa: una compra, una incidencia de mantenimiento, la preparación de un evento o la coordinación de un equipo. Prepara copias sin datos sensibles y usa una cuenta autorizada. Si no puedes preparar el caso, usa los datos ficticios del ejercicio.</p>
+      <p data-level-show="basico"><strong>Básico:</strong> uno o dos correos breves.</p>
+      <p data-level-show="intermedio"><strong>Intermedio:</strong> notas o transcripción de una reunión breve.</p>
+      <p data-level-show="avanzado"><strong>Avanzado:</strong> esa reunión y una actualización posterior.</p>
+      <p>Conserva fechas y procedencia; no necesitas subir carpetas enteras. Una nota propia de lo tratado puede servir si no tienes una grabación autorizada.</p>
+      <div class="callout warn">
+        <p><strong>Esta página no sube ni analiza documentos.</strong> Prepara tus fuentes fuera de ella y apórtalas solo en la herramienta autorizada. No escribas aquí datos de clientes, importes reales ni información sensible.</p>
+        <p>Sustituir nombres no elimina por sí solo todos los datos identificables.</p>
+      </div>
+      <div class="checks" role="group" aria-labelledby="p-prep-q">
+        <h4 id="p-prep-q">Preguntas para preparar tus fuentes</h4>
+        <ul>
+          <li><label><input type="checkbox"> ¿Qué asunto acotado vas a usar y qué quieres conseguir?</label></li>
+          <li><label><input type="checkbox"> ¿Qué fuentes necesitas, de qué fecha son y de dónde proceden?</label></li>
+          <li><label><input type="checkbox"> ¿Qué datos personales, de clientes, importes o detalles internos puedes quitar o generalizar sin perder lo necesario?</label></li>
+          <li><label><input type="checkbox"> ¿Quiénes serán los destinatarios? Puedes usar roles en lugar de nombres.</label></li>
+          <li><label><input type="checkbox"> ¿Qué no está confirmado y qué requiere aprobación?</label></li>
+          <li><label><input type="checkbox"> ¿Usas una cuenta y una herramienta autorizadas, y conoces el procedimiento de tu empresa para grabar o subir una reunión?</label></li>
+        </ul>
+      </div>
+      <details class="more"><summary>Ejemplos de adaptación por área</summary>
+        <div class="inner">
+          <p class="small muted">Orientaciones genéricas: los datos concretos salen de tus fuentes, no de esta página.</p>
+          <p><strong>Compras.</strong> Un pedido con la entrega pendiente de confirmar. Fuentes: los correos con el proveedor. Destinatarios: el proveedor y la persona que prepara el material.</p>
+          <p><strong>Mantenimiento.</strong> Una incidencia en un equipo. Fuentes: el aviso y las notas de la revisión. Destinatarios: el técnico responsable y la jefatura de turno.</p>
+          <p><strong>Administración.</strong> Una documentación pendiente para un cierre. Fuentes: la solicitud y la lista de documentos. Destinatarios: quien aporta los documentos y la responsable del área.</p>
+          <p><strong>Organización de eventos.</strong> La preparación de una jornada. Fuentes: las notas de la reunión de preparación y una actualización posterior. Destinatarios: el equipo de logística y dirección.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="stage" aria-labelledby="p-s2">
+    <div class="stage-head"><h3 id="p-s2"><span class="stage-num">Paso 2</span>Crea y organiza el proyecto</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar este paso</label></div>
+    <ol>
+      <li>Crea un proyecto nuevo en la herramienta y ponle un nombre claro, como <em>Práctica compras</em> o <em>Seguimiento reunión</em>.</li>
+      <li>Añade las instrucciones del paso 3 en la configuración del proyecto.</li>
+      <li>Completa la ficha del paso 4 con los datos de tu caso y guárdala como fuente o pégala en el primer chat.</li>
+      <li>Añade las fuentes que indique cada etapa de la práctica y abre un chat dentro del proyecto.</li>
+    </ol>
+    <div class="callout">
+      <p><strong>Si tu herramienta no ofrece proyectos,</strong> usa un chat dedicado con las mismas instrucciones y fuentes. Practicas igualmente la organización.</p>
+      <p class="small muted">Las pantallas y los nombres de los menús varían entre herramientas, planes y cuentas. Busca la opción de proyectos y la de sus instrucciones en tu herramienta.</p>
+    </div>
+  </section>
+
+  <section class="stage" aria-labelledby="p-s3">
+    <div class="stage-head"><h3 id="p-s3"><span class="stage-num">Paso 3</span>Añade las instrucciones al proyecto</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar este paso</label></div>
+    <p>Pégalas en el apartado de instrucciones de la configuración del proyecto. No son un mensaje para el chat. Si usas un chat dedicado porque no hay proyectos, pégalas al empezar ese chat.</p>
+    <div class="mount" data-mount="instrucciones" data-h="4"></div>
+  </section>
+
+  <section class="stage" aria-labelledby="p-s4">
+    <div class="stage-head"><h3 id="p-s4"><span class="stage-num">Paso 4</span>Completa la ficha de contexto</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar este paso</label></div>
+    <p>Completa cada campo. Después guárdala como fuente del proyecto (puedes descargarla en TXT) o pégala en el primer chat.</p>
+    <p data-mode-show="ficticio">En el caso ficticio, la ficha recoge la situación inicial de la fuente A; el básico usa los datos de su encargo. Verás sugerencias del caso: revísalas y confírmalas con «Usar sugerencia».</p>
+    <p data-mode-show="adaptar">Escribe roles o nombres ficticios y solo los datos necesarios. Si un dato no existe, escribe «no consta» donde tenga sentido.</p>
+    <div class="mount" data-mount="ficha" data-h="4"></div>
+  </section>
+
+  <section class="stage" aria-labelledby="p-s5">
+    <div class="stage-head"><h3 id="p-s5"><span class="stage-num">Paso 5</span>Abre un chat dentro del proyecto</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar este paso</label></div>
+    <p>Abre un chat nuevo dentro del proyecto y sigue la práctica. Añade cada fuente en la etapa que se indica: en intermedio y avanzado, A primero y B solo al actualizar.</p>
+    <div class="callout key"><p><strong>Abrir otro chat en el mismo proyecto no aísla las fuentes compartidas.</strong> Si una fuente está en el proyecto, puede usarse en sus chats.</p></div>
+    <div class="btnrow">
+      <a class="btn" href="#basico" data-level-show="basico">Volver al básico</a>
+      <a class="btn" href="#intermedio" data-level-show="intermedio">Volver al intermedio</a>
+      <a class="btn" href="#avanzado" data-level-show="avanzado">Volver al avanzado</a>
+    </div>
+  </section>
+
+  <h3 id="plantilla" tabindex="-1">Adapta los prompts y conserva lo que funciona</h3>
+  <p>Cambia fuente, fecha, personas y resultado por los de tu empresa, o explica la petición con tus palabras. Completa los campos de esta plantilla antes de copiarla. Guarda la petición revisada, el resultado válido y una duda para la siguiente clase.</p>
+  <p class="small muted">La plantilla es para tu uso en la herramienta de IA. No es un formulario de entrega y no envía nada.</p>
+  <div class="mount" data-mount="plantilla" data-h="4"></div>
+</section>
+
+<!-- ============ BÁSICO ============ -->
+<section class="view" id="v-basico" data-route="basico" data-group="practicas" data-title="Básico — Dos comunicaciones" aria-labelledby="h-basico" hidden>
+  <nav class="crumbs" aria-label="Ruta"><a href="#practicas">Elige una práctica</a> › Básico</nav>
+  <div class="view-head"><h2 id="h-basico" tabindex="-1">Básico — Dos comunicaciones</h2></div>
+  <p class="lead">Pasar de un encargo sencillo a una comunicación basada en fuentes.</p>
+  <p><strong>Orientación:</strong> 20–30 minutos con fuentes breves. <strong>Terminas con:</strong> un proyecto preparado, dos borradores para destinatarios distintos y una petición reutilizable.</p>
+  <div class="mount-mode"></div>
+  <p class="small muted">Las casillas son una ayuda personal para organizarte. Marcarlas no valida el resultado.</p>
+
+  <section class="stage" aria-labelledby="b-p0">
+    <div class="stage-head"><h3 id="b-p0"><span class="stage-num">Antes de empezar</span>Prepara tu proyecto</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p>Crea el proyecto, añade las instrucciones y completa la ficha. Si no hay proyectos, usa un chat dedicado.</p>
+    <p><a class="btn secondary" href="#preparar" data-setlevel="basico">Ir a «Prepara tu proyecto»</a></p>
+  </section>
+
+  <section class="stage" aria-labelledby="b-p1">
+    <div class="stage-head"><h3 id="b-p1"><span class="stage-num">Parte 1</span>Redacta a partir del contexto</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p class="where"><strong>Dónde:</strong> chat nuevo dentro del proyecto.</p>
+    <p>Explica primero el encargo con tus palabras. Todavía no añadas los correos de la parte 2.</p>
+    <div data-mode-show="ficticio">
+      <p>Datos del caso ficticio: pedido 4583 de 80 álbumes; previsión del 21 de octubre; material preparado antes del 22; feria del 24 y 25; buena relación con el proveedor; Bruno firma y Alicia prepara el material.</p>
+      <p class="small">Este prompt contiene sus datos; el botón copia solo la petición.</p>
+      <div class="mount" data-mount="basicoP1" data-h="4"></div>
+    </div>
+    <div data-mode-show="adaptar">
+      <p>Escribe tu propio encargo usando las preguntas de OCDTF: qué quieres conseguir y para quién, qué contexto necesita, con qué datos debe trabajar, qué tono y qué formato. Añade los límites: qué no está confirmado y qué no debe prometer.</p>
+      <p>Si prefieres partir de una estructura, completa la <a href="#preparar/plantilla" data-setlevel="basico">plantilla para repetir una tarea</a>.</p>
+    </div>
+  </section>
+
+  <section class="stage" aria-labelledby="b-p2">
+    <div class="stage-head"><h3 id="b-p2"><span class="stage-num">Parte 2</span>Aporta fuentes y cambia el destinatario</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p class="where"><strong>Dónde:</strong> el mismo chat.</p>
+    <div data-mode-show="ficticio">
+      <p>Descarga el hilo como <strong>Correos_practica.txt</strong> y súbelo al proyecto. Si no puedes subir archivos, usa «Copiar prompt con correos» y pégalo en el mismo chat. Es una ampliación ficticia exclusiva del básico: no uses la fuente B.</p>
+      <div class="mount" data-mount="hilo" data-h="4" data-collapsed="1"></div>
+    </div>
+    <div data-mode-show="adaptar">
+      <p>Añade al proyecto uno o dos correos de tu caso preparados sin datos sensibles. Si no puedes subir archivos, pégalos en el mismo chat justo después del prompt.</p>
+    </div>
+    <p>Completa los destinatarios y la firma antes de copiar.</p>
+    <div class="mount" data-mount="dosDest" data-h="4"></div>
+  </section>
+
+  <section class="stage" aria-labelledby="b-p3">
+    <div class="stage-head"><h3 id="b-p3"><span class="stage-num">Parte 3</span>Mejora y comprueba</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p class="where"><strong>Dónde:</strong> el mismo chat.</p>
+    <p>Pide una mejora específica con tus palabras: acortar, suavizar el tono o destacar la pregunta. Antes de usarla, contrasta cada dato y lee como si fueras cada destinatario.</p>
+    <p data-mode-show="ficticio">El proveedor necesita una petición; Alicia necesita saber cómo queda la situación. La fecha del 21 sigue siendo estimada. No se ha recibido el pedido ni aprobado un gasto.</p>
+    <div class="checks" role="group" aria-labelledby="b-chk">
+      <h4 id="b-chk">Comprueba</h4>
+      <ul>
+        <li><label><input type="checkbox"> Los dos borradores son adecuados a destinatarios distintos: el externo recibe una petición y el interno sabe cómo queda la situación.</label></li>
+        <li><label><input type="checkbox"> He contrastado cada dato con la fuente: nombres, cantidades y fechas.</label></li>
+        <li data-mode-show="ficticio"><label><input type="checkbox"> La fecha del 21 aparece como estimada; el pedido no figura como recibido ni hay gastos aprobados.</label></li>
+        <li data-mode-show="adaptar"><label><input type="checkbox"> Lo que no está confirmado sigue sin confirmar y no aparecen gastos ni compromisos aprobados.</label></li>
+        <li><label><input type="checkbox"> No se añaden nuevas tareas, horarios ni costes.</label></li>
+        <li><label><input type="checkbox"> Después de la mejora he vuelto a comprobar los hechos.</label></li>
+      </ul>
+    </div>
+    <h4>Guarda lo que funciona</h4>
+    <p>Guarda ambos borradores y una plantilla propia con fuente, pedido, fechas, destinatario y firma como datos variables. Anota qué cambiaste y por qué. Puedes partir de la <a href="#preparar/plantilla" data-setlevel="basico">plantilla para repetir una tarea</a>.</p>
+    <div class="callout warn"><p>Si solo has obtenido el primer correo, te quedan las fuentes, el segundo destinatario y la revisión: la práctica aún no está completa.</p></div>
+    <p><a class="btn" href="#reflexion">Completar mi reflexión final</a></p>
+  </section>
+</section>
+
+<!-- ============ INTERMEDIO ============ -->
+<section class="view" id="v-intermedio" data-route="intermedio" data-group="practicas" data-title="Intermedio — Coordinar una reunión" aria-labelledby="h-intermedio" hidden>
+  <nav class="crumbs" aria-label="Ruta"><a href="#practicas">Elige una práctica</a> › Intermedio</nav>
+  <div class="view-head"><h2 id="h-intermedio" tabindex="-1">Intermedio — Coordinar una reunión</h2></div>
+  <p class="lead">Convertir información dispersa en un plan comprensible para el equipo.</p>
+  <p><strong>Orientación:</strong> 30–40 minutos con una reunión breve. <strong>Terminas con:</strong> acta, tabla de acciones, propuesta de flujo y dos avisos personales. No necesitas haber hecho el básico.</p>
+  <div class="mount-mode"></div>
+  <p class="small muted">Las casillas son una ayuda personal para organizarte. Marcarlas no valida el resultado.</p>
+
+  <section class="stage" aria-labelledby="i-p0">
+    <div class="stage-head"><h3 id="i-p0"><span class="stage-num">Antes de empezar</span>Prepara tu proyecto</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p>Crea el proyecto, añade las instrucciones y completa la ficha. Si no hay proyectos, usa un chat dedicado.</p>
+    <p><a class="btn secondary" href="#preparar" data-setlevel="intermedio">Ir a «Prepara tu proyecto»</a></p>
+  </section>
+
+  <section class="stage" aria-labelledby="i-p1">
+    <div class="stage-head"><h3 id="i-p1"><span class="stage-num">Parte 1</span>Aporta la reunión y comprueba la lectura</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p class="where"><strong>Dónde:</strong> chat nuevo dentro del proyecto.</p>
+    <div data-mode-show="ficticio">
+      <p>Primero añade la fuente A: descárgala como <strong>Reunion_15.txt</strong> y súbela al proyecto. También puedes usar «Copiar prompt con fuente A» y pegarlo en el chat. No añadas B. En este ejemplo trabajamos al 15 de octubre de 2026.</p>
+      <div class="mount" data-mount="fuenteA" data-h="4" data-collapsed="1"></div>
+    </div>
+    <div data-mode-show="adaptar">
+      <p>Primero añade al proyecto notas o una transcripción breve de una reunión de tu empresa, preparadas sin datos sensibles. Si no puedes subir archivos, pégalas en el chat justo después del prompt.</p>
+    </div>
+    <div class="mount" data-mount="acta" data-h="4"></div>
+    <p><strong>Revisa antes de seguir.</strong> «Antes del» indica un plazo, no cuándo se ejecutó.</p>
+    <div class="checks" role="group" aria-labelledby="i-chk1">
+      <h4 id="i-chk1">Comprueba la tabla frente a la reunión</h4>
+      <ul data-mode-show="ficticio">
+        <li><label><input type="checkbox"> Hay cuatro tareas asignadas: dos de Bruno, una de Alicia y una de Celia.</label></li>
+        <li><label><input type="checkbox"> El folleto y la consulta del montaje aparecen como asuntos sin asignar.</label></li>
+        <li><label><input type="checkbox"> Los 80 álbumes figuran como no recibidos y la reserva como no confirmada.</label></li>
+        <li><label><input type="checkbox"> Preparar el material figura como compromiso pendiente, no como hecho.</label></li>
+        <li><label><input type="checkbox"> Cada fila tiene una frase de la fuente que la respalda.</label></li>
+      </ul>
+      <ul data-mode-show="adaptar">
+        <li><label><input type="checkbox"> Cada tarea tiene el responsable y el plazo que dice la reunión, o aparece como sin asignar.</label></li>
+        <li><label><input type="checkbox"> Los estados coinciden con la fuente: nada pendiente aparece como hecho.</label></li>
+        <li><label><input type="checkbox"> Los pendientes sin asignar están separados.</label></li>
+        <li><label><input type="checkbox"> Cada fila tiene una frase de la fuente que la respalda.</label></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="stage" aria-labelledby="i-p2">
+    <div class="stage-head"><h3 id="i-p2"><span class="stage-num">Parte 2</span>Propón una forma de coordinarse</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p class="where"><strong>Dónde:</strong> el mismo chat.</p>
+    <div class="mount" data-mount="flujo" data-h="4"></div>
+    <p>Decide tú si el flujo encaja con el trabajo real. Una respuesta puede sugerir quién convendría que valide un punto; eso no equivale a que la reunión lo haya asignado. Si necesitas una nueva asignación o fecha, déjala como propuesta hasta que la confirme la persona responsable.</p>
+    <div class="checks" role="group" aria-labelledby="i-chk2">
+      <h4 id="i-chk2">Comprueba</h4>
+      <ul>
+        <li><label><input type="checkbox"> El flujo está identificado como propuesta, no como acuerdo.</label></li>
+        <li><label><input type="checkbox"> No hay tareas reasignadas ni fechas nuevas presentadas como acordadas.</label></li>
+        <li><label><input type="checkbox"> Las dependencias se desprenden de la fuente.</label></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="stage" aria-labelledby="i-p3">
+    <div class="stage-head"><h3 id="i-p3"><span class="stage-num">Parte 3</span>Prepara dos avisos personales</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p class="where"><strong>Dónde:</strong> el mismo chat.</p>
+    <p>Elige dos destinatarios que tengan tareas asignadas en la tabla revisada. <span data-mode-show="ficticio">En el caso ficticio pueden ser Alicia y Bruno.</span><span data-mode-show="adaptar">Si faltan nombres en tu caso, identifica los roles o pregunta antes de redactar.</span></p>
+    <div class="mount" data-mount="mensajes" data-h="4"></div>
+    <div class="checks" role="group" aria-labelledby="i-chk3">
+      <h4 id="i-chk3">Comprueba</h4>
+      <ul>
+        <li><label><input type="checkbox"> Los dos avisos concuerdan con la tabla revisada: tareas, plazos y pendientes.</label></li>
+        <li><label><input type="checkbox"> Cada aviso incluye solo las tareas acordadas de esa persona; las sugerencias van separadas.</label></li>
+        <li><label><input type="checkbox"> He leído qué debo comprobar antes de enviar cada mensaje. La IA no los envía.</label></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="stage" aria-labelledby="i-p4">
+    <div class="stage-head"><h3 id="i-p4"><span class="stage-num">Cierre</span>Comprueba y guarda</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <div class="checks" role="group" aria-labelledby="i-chk4">
+      <h4 id="i-chk4">Comprueba</h4>
+      <ul>
+        <li><label><input type="checkbox"> He revisado datos, responsables, estados, plazos y coherencia entre el acta, la tabla, el flujo y los avisos.</label></li>
+        <li><label><input type="checkbox"> He anotado una corrección o comprobación que hice.</label></li>
+        <li><label><input type="checkbox"> He guardado el acta y la tabla como base del próximo seguimiento.</label></li>
+        <li><label><input type="checkbox"> He guardado los prompts útiles indicando qué fuente y fecha requieren.</label></li>
+      </ul>
+    </div>
+    <p>Para otra reunión, sustituye la fuente y repite la revisión; no reutilices sus acuerdos antiguos.</p>
+    <p><a class="btn" href="#reflexion">Completar mi reflexión final</a></p>
+  </section>
+</section>
+
+<!-- ============ AVANZADO ============ -->
+<section class="view" id="v-avanzado" data-route="avanzado" data-group="practicas" data-title="Avanzado — Seguimiento y salida útil" aria-labelledby="h-avanzado" hidden>
+  <nav class="crumbs" aria-label="Ruta"><a href="#practicas">Elige una práctica</a> › Avanzado</nav>
+  <div class="view-head"><h2 id="h-avanzado" tabindex="-1">Avanzado — Seguimiento y salida útil</h2></div>
+  <p class="lead">Mantener un seguimiento fiable y convertirlo en una herramienta útil.</p>
+  <p><strong>Orientación:</strong> 40–50 minutos con fuentes breves y una primera versión sencilla. Haces la preparación común y eliges una salida: dashboard local o informe para dirección, no las dos. No necesitas haber hecho otros niveles.</p>
+  <div class="mount-mode"></div>
+  <p class="small muted">Las casillas son una ayuda personal para organizarte. Marcarlas no valida el resultado.</p>
+
+  <section class="stage" aria-labelledby="a-p0">
+    <div class="stage-head"><h3 id="a-p0"><span class="stage-num">Antes de empezar</span>Prepara tu proyecto</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p>Crea el proyecto, añade las instrucciones y completa la ficha. Si no hay proyectos, usa un chat dedicado.</p>
+    <p><a class="btn secondary" href="#preparar" data-setlevel="avanzado">Ir a «Prepara tu proyecto»</a></p>
+  </section>
+
+  <section class="stage" aria-labelledby="a-p1">
+    <div class="stage-head"><h3 id="a-p1"><span class="stage-num">Etapa 1</span>Guarda una situación inicial revisada</h3>
+      <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+    <p class="where"><strong>Dónde:</strong> chat nuevo dentro del proyecto.</p>
+    <div data-mode-show="ficticio">
+      <p>Añade solo la fuente A: descárgala como <strong>Reunion_15.txt</strong> y súbela al proyecto, o usa «Copiar prompt con fuente A». Trabaja solo con esa fecha. No añadas aún la actualización posterior ni los apuntes completos.</p>
+      <div class="mount" data-mount="fuenteA" data-h="4" data-collapsed="1"></div>
+    </div>
+    <div data-mode-show="adaptar">
+      <p>Añade la reunión de tu empresa preparada sin datos sensibles. Trabaja solo con esa fecha. No añadas aún la actualización posterior.</p>
+    </div>
+    <div class="mount" data-mount="base" data-h="4"></div>
+    <p>Comprueba la tabla frente a la reunión y guarda una copia antes de actualizarla. Esa copia conserva lo que se sabía en la primera fecha; no debe cambiar retrospectivamente.</p>
+    <div class="checks" role="group" aria-labelledby="a-chk1">
+      <h4 id="a-chk1">Comprueba</h4>
+      <ul>
+        <li><label><input type="checkbox"> He comprobado la tabla frente a la reunión.</label></li>
+        <li><label><input type="checkbox"> Lo no asignado y lo no confirmado aparecen separados.</label></li>
+        <li><label><input type="checkbox"> No aparecen ejecuciones ni autorizaciones que la fuente no recoge.</label></li>
+        <li><label><input type="checkbox"> He guardado una copia de la tabla inicial.</label></li>
+      </ul>
+    </div>
+    <div class="btnrow" id="adv-gate-row">
+      <button type="button" id="adv-gate" aria-controls="adv-stage2" aria-expanded="false">Continuar a la etapa 2: añadir la actualización</button>
+    </div>
+    <p class="small muted" id="adv-gate-note">La etapa 2 se muestra cuando continúas. Hazlo cuando hayas revisado y guardado la tabla inicial.</p>
+  </section>
+
+  <div id="adv-stage2" hidden>
+    <section class="stage" aria-labelledby="a-p2">
+      <div class="stage-head"><h3 id="a-p2" tabindex="-1"><span class="stage-num">Etapa 2</span>Añade la actualización y comprueba cambios</h3>
+        <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+      <p class="where"><strong>Dónde:</strong> el mismo chat.</p>
+      <div data-mode-show="ficticio">
+        <p>Ahora añade la fuente B: descárgala como <strong>Actualizacion_20.txt</strong> y súbela al proyecto, indicando en el chat que es la actualización. Si no usas archivos, usa «Copiar prompt con fuente B».</p>
+        <div class="mount" data-mount="fuenteB" data-h="4" data-collapsed="1"></div>
+      </div>
+      <div data-mode-show="adaptar">
+        <p>Añade al proyecto una nota o un correo posterior de tu empresa y señala en el chat qué documento es la actualización. Si no usas archivos, pégala justo después del prompt.</p>
+      </div>
+      <div class="mount" data-mount="cambios" data-h="4"></div>
+      <p data-mode-show="ficticio">En la feria, el contacto al proveedor, la reserva y las invitaciones constan realizados, pero no sabemos en qué día. La entrega del 23 es una estimación y queda después del transporte del 22. El material sigue sin terminar de prepararse. Tener horario de montaje no demuestra quién lo consultó; el folleto continúa sin responsable.</p>
+      <div class="checks" role="group" aria-labelledby="a-chk2">
+        <h4 id="a-chk2">Comprueba</h4>
+        <ul data-mode-show="ficticio">
+          <li><label><input type="checkbox"> Contacto al proveedor, reserva e invitaciones figuran como realizados, sin una fecha de ejecución inventada.</label></li>
+          <li><label><input type="checkbox"> La entrega del 23 figura como estimación sin confirmar, posterior al transporte del 22.</label></li>
+          <li><label><input type="checkbox"> La preparación del material sigue sin terminar y los 80 álbumes siguen sin llegar.</label></li>
+          <li><label><input type="checkbox"> El montaje del 23 no tiene una persona atribuida; el folleto sigue sin responsable.</label></li>
+          <li><label><input type="checkbox"> No hay alternativas convertidas en acuerdos.</label></li>
+          <li><label><input type="checkbox"> La tabla inicial se conserva sin cambios.</label></li>
+        </ul>
+        <ul data-mode-show="adaptar">
+          <li><label><input type="checkbox"> Lo realizado sin fecha conocida no aparece con una fecha inventada ni como plazo cumplido.</label></li>
+          <li><label><input type="checkbox"> Las estimaciones siguen siendo estimaciones.</label></li>
+          <li><label><input type="checkbox"> Las contradicciones entre fuentes están señaladas, no resueltas inventando.</label></li>
+          <li><label><input type="checkbox"> La tabla inicial se conserva sin cambios.</label></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="stage" aria-labelledby="a-p3">
+      <div class="stage-head"><h3 id="a-p3"><span class="stage-num">Etapa 3</span>Contrasta antes de construir la salida</h3>
+        <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+      <p class="where"><strong>Dónde:</strong> el mismo chat.</p>
+      <p>Esta petición te ayuda a buscar diferencias. No es todavía el resumen final ni una garantía de que todo esté verificado.</p>
+      <div class="mount" data-mount="contrastar" data-h="4"></div>
+      <p>Haz tú la comprobación en las fuentes y corrige la tabla si hace falta. La tabla revisada y sus límites son la base de la salida.</p>
+      <div class="checks" role="group" aria-labelledby="a-chk3">
+        <h4 id="a-chk3">Comprueba</h4>
+        <ul>
+          <li><label><input type="checkbox"> He comprobado yo cada posible diferencia en la frase de la fuente.</label></li>
+          <li><label><input type="checkbox"> He distinguido entre un error y un dato que simplemente falta.</label></li>
+          <li><label><input type="checkbox"> He corregido la tabla donde hacía falta.</label></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="stage" aria-labelledby="a-p4">
+      <div class="stage-head"><h3 id="a-p4"><span class="stage-num">Etapa 4</span>Elige cómo utilizar el seguimiento</h3>
+        <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+      <p>Elige una sola salida. No hacen falta las dos.</p>
+      <fieldset class="radio-row">
+        <legend>Salida elegida</legend>
+        <div class="opts">
+          <label><input type="radio" name="salida" value="dashboard"> Dashboard local para consultar y filtrar</label>
+          <label><input type="radio" name="salida" value="informe"> Informe con alternativas para dirección</label>
+        </div>
+      </fieldset>
+      <p id="salida-empty" class="muted">Elige una salida para ver su prompt y sus comprobaciones.</p>
+
+      <div id="salida-dashboard" hidden>
+        <h4>Opción A · Un dashboard sencillo</h4>
+        <p class="where"><strong>Dónde:</strong> el mismo chat, con la tabla ya revisada.</p>
+        <p>Usa esta opción si quieres practicar el HTML visto en la mañana. Pide una sola página local; no necesitas publicarla ni conectar cuentas. Si no logras obtener o abrir el archivo, realiza la opción B y anota la dificultad para la siguiente clase.</p>
+        <div class="callout key">
+          <p><strong>No confundas dos cosas distintas.</strong> Esta página de repaso te enseña los pasos y no contiene resultados resueltos. El dashboard del ejercicio lo creas tú en tu herramienta, a partir de tu tabla revisada.</p>
+        </div>
+        <div class="mount" data-mount="dashboard" data-h="5"></div>
+        <div class="checks" role="group" aria-labelledby="a-chk-dash">
+          <h4 id="a-chk-dash">Prueba el dashboard que hayas obtenido</h4>
+          <ul>
+            <li><label><input type="checkbox"> He probado tres filtros, incluidos «todos» y «sin asignar», y he vuelto a la vista completa.</label></li>
+            <li><label><input type="checkbox"> He contrastado cada fila con la tabla y no desaparece ningún asunto.</label></li>
+            <li><label><input type="checkbox"> He revisado al menos una fecha, un responsable y una estimación.</label></li>
+            <li><label><input type="checkbox"> Se conservan «sin asignar» y «sin confirmar» y no hay porcentajes de progreso ni datos inventados.</label></li>
+          </ul>
+        </div>
+        <p>El HTML es una foto de la información: para reflejar novedades debes aportar datos y generar una nueva versión revisada. No se actualiza solo ni es un sistema compartido de seguimiento en tiempo real.</p>
+      </div>
+
+      <div id="salida-informe" hidden>
+        <h4>Opción B · Un informe que ayude a decidir</h4>
+        <p class="where"><strong>Dónde:</strong> el mismo chat, con la tabla ya revisada.</p>
+        <p>Usa esta opción si tu trabajo exige preparar decisiones más que visualizar tareas. <span data-mode-show="ficticio">En el caso ficticio, el problema es la entrega estimada posterior al transporte.</span><span data-mode-show="adaptar">Elige un pendiente real y concreta qué decisión necesita la persona responsable.</span></p>
+        <div class="mount" data-mount="informe" data-h="5"></div>
+        <div class="checks" role="group" aria-labelledby="a-chk-inf">
+          <h4 id="a-chk-inf">Prueba las alternativas que hayas obtenido</h4>
+          <ul>
+            <li><label><input type="checkbox"> Las alternativas caben en la situación conocida.</label></li>
+            <li data-mode-show="ficticio"><label><input type="checkbox"> No se dan por confirmados presupuesto, hora ni lugar de entrega, y no se ha autorizado otro viaje ni cancelar el pedido.</label></li>
+            <li data-mode-show="adaptar"><label><input type="checkbox"> No aparecen costes, disponibilidad ni autorizaciones que no consten en las fuentes.</label></li>
+            <li><label><input type="checkbox"> Las alternativas figuran como propuestas para valorar, no como acuerdos.</label></li>
+            <li><label><input type="checkbox"> He guardado una pregunta prioritaria para dirección<span data-mode-show="ficticio"> o el proveedor</span>.</label></li>
+          </ul>
+        </div>
+        <p>No necesitas elegir una alternativa si faltan datos.</p>
+      </div>
+    </section>
+
+    <section class="stage" aria-labelledby="a-p5">
+      <div class="stage-head"><h3 id="a-p5"><span class="stage-num">Cierre</span>Cierra tu práctica y prepara la siguiente utilización</h3>
+        <label class="stage-done"><input type="checkbox"> Marcar como hecha</label></div>
+      <p>Guarda el proyecto, sus fuentes fechadas, la tabla actualizada y la salida elegida. Escribe tres líneas: qué corregiste o verificaste, qué parte te resultó útil y qué cambiarías para repetirlo en tu trabajo. Conserva una duda para la próxima clase.</p>
+      <p>Si compartes tu aprendizaje, utiliza una versión ficticia o sin datos sensibles; no necesitas entregar documentos de empresa.</p>
+      <p><a class="btn" href="#reflexion">Completar mi reflexión final</a></p>
+    </section>
+  </div>
+</section>
+
+<!-- ============ REFLEXIÓN ============ -->
+<section class="view reflect" id="v-reflexion" data-route="reflexion" data-group="practicas" data-title="Reflexión final" aria-labelledby="h-reflexion" hidden>
+  <nav class="crumbs" aria-label="Ruta"><a href="#practicas">Elige una práctica</a> › Reflexión final</nav>
+  <div class="view-head"><h2 id="h-reflexion" tabindex="-1">Reflexión final</h2></div>
+  <p class="lead">Tres preguntas para repasar lo que has aprendido y preparar la próxima clase. Puedes compartir tus respuestas con Diego para comentar tus dudas.</p>
+  <p class="small muted">Tus respuestas no se envían automáticamente ni se guardan al cerrar o recargar la página. Cópialas, descárgalas o abre un correo para enviarlas tú.</p>
+  <div class="field"><label for="refl-name">Tu nombre (opcional)</label><input type="text" id="refl-name" autocomplete="off" placeholder="Para identificar tu reflexión"></div>
+  <div class="field"><label for="refl-1">¿Qué tarea elegí?</label><textarea id="refl-1" autocomplete="off" rows="3"></textarea></div>
+  <div class="field"><label for="refl-2">¿Qué corregí o comprobé?</label><textarea id="refl-2" autocomplete="off" rows="3"></textarea></div>
+  <div class="field"><label for="refl-3">¿Qué duda traigo a la próxima clase?</label><textarea id="refl-3" autocomplete="off" rows="3"></textarea></div>
+  <div class="callout key no-print">
+    <h3 style="margin-top:0">Comparte tu reflexión con Diego</h3>
+    <p>Destinatario: <a href="mailto:contacto@aitic.es">contacto@aitic.es</a>.</p>
+    <p>El botón abre tu aplicación de correo con el destinatario, el asunto y tus respuestas incluidos. Revisa el borrador y pulsa enviar en tu correo. No necesitas adjuntar el TXT.</p>
+    <div class="btnrow"><button type="button" id="refl-email">Abrir correo con mis respuestas</button></div>
+    <p class="small muted">Si no se abre tu correo o no aparecen todas las respuestas, cópialas y pégalas en un mensaje a esta dirección, o descarga el TXT y adjúntalo manualmente.</p>
+  </div>
+  <div class="btnrow">
+    <button type="button" class="secondary" id="refl-copy">Copiar mis respuestas</button>
+    <button type="button" class="secondary" id="refl-dl">Descargar mis respuestas (TXT)</button>
+    <button type="button" class="secondary" id="refl-clear">Borrar mis respuestas</button>
+  </div>
+  <p class="slip-status" id="refl-status"></p>
+
+  <div class="callout key">
+    <p><strong>Para reutilizar cualquiera de los niveles:</strong> cambia la situación y las fuentes, explica la fecha de referencia y el resultado que necesitas, revisa datos y compromisos, y guarda una versión válida.</p>
+    <p>Compara el trabajo completo con tu forma habitual de hacerlo; el número de mensajes o el aspecto del dashboard no prueban por sí solos que hayas ganado utilidad.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Jornada 1 — Repaso y práctica. Diego Huidobro · AITIC · ITCL.</p>
+    <p>Material de repaso y práctica opcional. Los textos que escribes se procesan en tu navegador y no se guardan al recargar o cerrar. La página no los envía automáticamente; puedes compartir tu reflexión abriendo un borrador y enviándolo desde tu correo. Para abrir la página mediante un enlace necesitas Internet. Si guardas una copia del HTML, puedes utilizar sus funciones internas sin conexión; consultar la documentación oficial y enviar correos requiere Internet.</p>
+    <p class="no-print"><button type="button" class="secondary printbtn" id="print-btn">Imprimir esta sección</button></p>
+  </div>
+</footer>
+
+<div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<dialog id="manual" aria-labelledby="manual-t" aria-describedby="manual-d">
+  <h2 id="manual-t" style="font-size:1.3rem">Copia el texto manualmente</h2>
+  <p id="manual-d">El navegador no ha permitido copiar automáticamente. El texto ya está seleccionado: pulsa Ctrl+C (Cmd+C en Mac) o mantén pulsado para copiarlo.</p>
+  <label class="sr-only" for="manual-text">Texto para copiar</label>
+  <textarea id="manual-text" readonly></textarea>
+  <div class="btnrow"><button type="button" id="manual-select" class="secondary">Seleccionar todo</button><button type="button" id="manual-close">Cerrar</button></div>
+</dialog>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Textos que se copian (literales del documento) ---------- */
+var T = {
+  metodoCorreo: "Necesito un correo para que un proveedor confirme la entrega del pedido 4583, de 80 álbumes. Preparamos una feria el 24 y 25 de octubre de 2026; el material debe quedar listo antes del 22. La entrega estaba prevista para el 21, pero el envío no está confirmado. Tenemos buena relación con el proveedor. Pide confirmar la fecha y avisar de posibles retrasos. Tono cordial y directo; asunto y unas 100 palabras. Firma Bruno. No des la entrega por hecha ni autorices costes.",
+  mejora: "Pon la pregunta sobre la fecha en la primera frase. Mantén el tono cordial y conserva pedido, cantidad, fechas y firma. No añadas compromisos.",
+  instrucciones: "Ayúdame a preparar borradores de trabajo claros en español. Utiliza las fuentes que te indique y sus fechas. Distingue hechos, estimaciones, acuerdos y propuestas. No inventes datos, responsables, plazos ni autorizaciones. Si falta información importante o no puedes leer una fuente, indícalo y pregúntame. Mantén los compromisos del caso y señala qué debo revisar antes de utilizar el resultado.",
+  basicoP1: "Necesito un correo cordial al proveedor sobre el pedido 4583 de 80 álbumes. La entrega estaba prevista para el 21 de octubre de 2026, pero no está confirmada; debemos preparar el material antes del 22 para la feria del 24 y 25. Pide confirmar fecha y avisar de retrasos. Firma Bruno; asunto y unas 100 palabras. No aceptes costes ni prometas la entrega.",
+  hilo: "15 de octubre de 2026. Bruno al proveedor: Necesitamos confirmar el pedido 4583 de 80 álbumes, previsto para el 21. Alicia debe preparar el material antes del 22. ¿Podéis confirmar la entrega? No tenemos aprobados gastos adicionales.\n\n16 de octubre de 2026. Proveedor a Bruno: Seguimos estimando la entrega para el 21, pero aún no hay confirmación del transportista. Os avisaremos cuando la tengamos. No podemos garantizar todavía la fecha.",
+  fuenteA: "Accesorios Norte comercializa álbumes y protectores. Participan Alicia, operaciones; Bruno, comercial; y Celia, administración. Preparan una feria los días 24 y 25 de octubre de 2026 y tienen previsto preparar el transporte el 22.\n\nAlicia: Tenemos 120 álbumes y 60 protectores disponibles en almacén. Prepararé y comprobaré ese material antes del 22; todavía no está preparado. Los 80 álbumes adicionales del pedido 4583 aún no se han recibido y no deben sumarse al stock disponible.\n\nBruno: La entrega del pedido estaba prevista para el 21, pero el envío no está confirmado. Escribiré al proveedor antes del 16 para pedir confirmación y aviso de posibles retrasos. Tenemos buena relación; pedir alternativas no significa aprobar gastos. También enviaré invitaciones a los clientes profesionales antes del 19, sin prometer los 80 álbumes adicionales.\n\nCelia: Comprobaré antes del 17 que la reserva de la furgoneta está confirmada; ahora no puedo confirmarla. El folleto de precios necesita actualizarse y no tiene responsable ni plazo. Tampoco conocemos el horario de montaje ni hemos asignado quién lo consultará o cuándo.\n\nSe acuerda mantener esos dos asuntos sin asignar y actualizar el seguimiento cuando haya nueva información. No se aprueban costes adicionales ni cambios de transporte.",
+  fuenteB: "Celia confirma la reserva de la furgoneta para el transporte del 22. Bruno ha contactado al proveedor y recibido respuesta: estima entregar los 80 álbumes del pedido 4583 el 23, pero no confirma la fecha. Las invitaciones ya se han enviado. No constan los días exactos del contacto, la confirmación de la reserva ni el envío de invitaciones.\n\nSiguen disponibles 120 álbumes y 60 protectores. Los 80 adicionales no han llegado. Alicia todavía no ha terminado de preparar y comprobar el material disponible.\n\nEl folleto sigue sin actualizarse ni tener responsable. La organización comunica el montaje del 23, de 16:00 a 18:00; no consta quién consultó el horario ni cuándo.\n\nNo se ha decidido cómo gestionar el pedido si llega después del transporte del 22. No se ha autorizado cambiar el transporte, realizar otro viaje, aceptar gastos urgentes ni cancelar el pedido. No tenemos hora de entrega, lugar de recepción, costes alternativos ni presupuesto autorizado.",
+  acta: "Utiliza la reunión que he aportado como fuente para preparar un acta de máximo 180 palabras y una tabla de acciones con tarea, responsable, plazo, estado y frase de la fuente que lo respalda. Conserva los acuerdos y separa pendientes sin asignar. No inventes personas, fechas ni tareas realizadas. Si no puedes leer la reunión, pídemela antes de continuar.",
+  flujo: "Sobre la tabla revisada, propón un flujo de coordinación de máximo cinco pasos: inicio, trabajo, comprobación y cierre, con evidencia para cada paso. Señala dependencias que se desprendan de la fuente y distingue las propuestas que necesitan validación. No reasignes tareas ni añadas fechas como si estuvieran acordadas. El flujo es una guía para personas, no una automatización ejecutable.",
+  baseFicticio: "Con la reunión aportada, crea una tabla de seguimiento inicial con asunto, responsable conocido, plazo original, estado y evidencia de la fuente. Separa lo no asignado y lo no confirmado. En el caso de la feria, sitúate al 15 de octubre de 2026. No inventes ejecuciones ni autorizaciones. Si no puedes leer la fuente, pídemela.",
+  cambiosFicticio: "Utiliza la tabla inicial revisada y la actualización posterior que he aportado. Genera una nueva tabla con asunto, responsable, plazo original, estado actual, cambio, evidencia y qué falta decidir o comprobar. Conserva la tabla inicial. En la feria estamos al 20 de octubre. No deduzcas cumplimiento de plazos sin fecha de ejecución ni conviertas alternativas en acuerdos. Si las fuentes se contradicen, señala el conflicto en lugar de resolverlo inventando.",
+  contrastar: "Compara ambas tablas con sus fuentes. Enumera posibles diferencias en datos, estados, fechas o responsables y señala la frase que permite comprobar cada punto. Distingue un error de un dato que simplemente falta. No presentes esta revisión como una garantía de exactitud.",
+  dashboard: "Convierte la tabla de seguimiento revisada en un único archivo HTML con CSS y JavaScript incluidos. Muestra fecha de referencia, tareas, responsables, plazos, estados y asuntos por decidir. Añade filtros por responsable y estado y una vista de impresión. Conserva «sin asignar» y «sin confirmar». Sin librerías externas, claves API, envíos ni conexiones. Los filtros solo cambian la vista; no actualizan tareas. No inventes datos ni porcentajes de progreso. Entrega el archivo completo con instrucciones breves para abrirlo localmente.",
+  informe: "Con las fuentes y la tabla revisada, prepara un informe para dirección de máximo 250 palabras con avances, pendientes, riesgo principal y decisión necesaria. Añade aparte una tabla de dos alternativas con ventajas, riesgos, información que falta y autorización necesaria. Son propuestas para valorar, no acuerdos. No inventes costes, disponibilidad ni resultados garantizados. Termina con tres preguntas concretas que necesitamos resolver antes de decidir."
+};
+// Línea que identifica la fuente cuando se pega junto al prompt
+var LABEL_A = "Reunión del 15 de octubre de 2026:";
+var LABEL_B = "Actualización del 20 de octubre de 2026:";
+
+/* ---------- Ficha de contexto ---------- */
+var FICHA_FIELDS = [
+  {key:"actividad", label:"Actividad y área", hint:"Actividad y área.", area:true},
+  {key:"situacion", label:"Situación y objetivo", hint:"Qué ocurre y qué quiero conseguir.", area:true},
+  {key:"participantes", label:"Participantes y destinatarios", hint:"Roles o nombres ficticios.", area:true},
+  {key:"datos", label:"Datos y fecha de referencia", hint:"Cantidades, fechas y hechos relevantes.", area:true, noConsta:true},
+  {key:"fuentes", label:"Fuentes disponibles", hint:"Nombre, fecha y qué contiene cada una.", area:true},
+  {key:"limites", label:"Límites", hint:"Qué no está confirmado y qué requiere aprobación.", area:true, noConsta:true},
+  {key:"resultado", label:"Resultado que necesito", hint:"Documento, destinatario, tono y formato.", area:true}
+];
+var FICHA_A = {
+  actividad: "Accesorios Norte, empresa ficticia que comercializa álbumes y protectores; operaciones, comercial y administración",
+  participantes: "Alicia, operaciones; Bruno, comercial; Celia, administración (nombres ficticios)",
+  datos: "situación al 15 de octubre de 2026; 120 álbumes y 60 protectores disponibles en almacén; 80 álbumes adicionales del pedido 4583 sin recibir, con entrega prevista el 21 y envío sin confirmar; material por preparar y comprobar antes del 22; transporte previsto el 22; feria el 24 y 25 de octubre",
+  limites: "la entrega del pedido 4583 y la reserva de la furgoneta no están confirmadas; el folleto de precios y la consulta del horario de montaje no tienen responsable ni plazo; no se aprueban costes adicionales ni cambios de transporte"
+};
+var FICHA_SUG = {
+  basico: {
+    actividad: "Accesorios Norte, empresa ficticia que comercializa álbumes y protectores; área comercial",
+    situacion: "la entrega del pedido 4583 no está confirmada y el material debe estar preparado para una feria; quiero pedir confirmación al proveedor e informar internamente",
+    participantes: "Bruno, comercial, firma; Alicia prepara el material; el proveedor del pedido 4583 (nombres ficticios)",
+    datos: "pedido 4583 de 80 álbumes; entrega prevista el 21 de octubre de 2026, sin confirmar; material preparado antes del 22; feria el 24 y 25 de octubre; buena relación con el proveedor",
+    fuentes: "los datos del encargo en la parte 1; en la parte 2, Correos_practica.txt, hilo ficticio de correos del 15 y 16 de octubre de 2026",
+    limites: "la fecha del 21 es una previsión sin confirmar; el pedido no se ha recibido; no hay gastos adicionales aprobados",
+    resultado: "un correo al proveedor y un aviso interno a Alicia; tono cordial; asunto y unas 100 palabras cada uno; firma Bruno"
+  },
+  intermedio: {
+    actividad: FICHA_A.actividad,
+    situacion: "preparación de la feria del 24 y 25 de octubre de 2026; quiero convertir la reunión del 15 en un plan comprensible para el equipo",
+    participantes: FICHA_A.participantes,
+    datos: FICHA_A.datos,
+    fuentes: "Reunion_15.txt, extracto de la reunión del 15 de octubre de 2026 (fuente A)",
+    limites: FICHA_A.limites,
+    resultado: "acta, tabla de acciones, propuesta de flujo de coordinación y dos avisos breves para personas con tareas asignadas; tono claro"
+  },
+  avanzado: {
+    actividad: FICHA_A.actividad,
+    situacion: "preparación de la feria del 24 y 25 de octubre de 2026; quiero mantener un seguimiento fiable a partir de la reunión del 15 y de la información posterior",
+    participantes: FICHA_A.participantes,
+    datos: FICHA_A.datos,
+    fuentes: "Reunion_15.txt, extracto de la reunión del 15 de octubre de 2026 (fuente A); la actualización posterior se añadirá en la etapa 2",
+    limites: FICHA_A.limites,
+    resultado: "tabla de seguimiento revisada y, después, una sola salida: dashboard local o informe para dirección"
+  }
+};
+
+/* ---------- Plantilla para repetir una tarea ---------- */
+var PLANT_FIELDS = [
+  {key:"fuentes", label:"Fuentes y fechas", hint:"Por ejemplo: la reunión del día X y el correo del día Y."},
+  {key:"resultado", label:"Resultado", hint:"Qué documento o mensaje necesitas."},
+  {key:"destinatarios", label:"Destinatarios", hint:"Roles o nombres ficticios."},
+  {key:"fecha", label:"Fecha de referencia", hint:"Se lee «Sitúate al…». Escribe una fecha, por ejemplo «15 de octubre de 2026»."},
+  {key:"contexto", label:"Contexto y límites", hint:"Se lee «Ten en cuenta…». Por ejemplo: «que la entrega no está confirmada y que no hay gastos aprobados».", area:true},
+  {key:"tono", label:"Tono", hint:"Por ejemplo: cordial y claro."},
+  {key:"formato", label:"Formato", hint:"Por ejemplo: asunto y máximo 100 palabras, o una tabla."}
+];
+var PLANT_SUG = {
+  basico: {fuentes:"el hilo de correos del 15 y 16 de octubre de 2026", resultado:"un aviso interno breve", destinatarios:"Alicia", fecha:"16 de octubre de 2026", contexto:"que la entrega del 21 sigue estimada, que el pedido no se ha recibido y que no hay gastos aprobados", tono:"cordial y claro", formato:"asunto y máximo 100 palabras"},
+  intermedio: {fuentes:"la reunión del 15 de octubre de 2026", resultado:"un acta con tabla de acciones", destinatarios:"el equipo de la feria", fecha:"15 de octubre de 2026", contexto:"que hay dos asuntos sin asignar y que no se aprueban costes ni cambios de transporte", tono:"claro y neutro", formato:"acta de máximo 180 palabras y una tabla"},
+  avanzado: {fuentes:"la reunión del 15 de octubre de 2026", resultado:"una tabla de seguimiento inicial", destinatarios:"el equipo y dirección", fecha:"15 de octubre de 2026", contexto:"que la entrega y la reserva no están confirmadas y que no hay costes ni cambios aprobados", tono:"neutro", formato:"tabla con asunto, responsable, plazo, estado y evidencia"}
+};
+
+/* ---------- Especificación de los bloques ---------- */
+function staticText(t){ return function(){ return t; }; }
+function copyBtn(label, what, build){ return {type:"copy", label:label, what:what, build:build}; }
+function dlBtn(filename, what, build){ return {type:"download", label:"Descargar " + filename, filename:filename, what:what, build:build}; }
+
+var SPECS = {
+  metodoCorreo: {kind:"prompt", title:"Ejemplo de correo con contexto", build:staticText(T.metodoCorreo),
+    buttons:function(){ return [copyBtn("Copiar prompt","prompt del ejemplo de correo",staticText(T.metodoCorreo))]; }},
+  mejora: {kind:"prompt", title:"Pedir una mejora", build:staticText(T.mejora),
+    buttons:function(){ return [copyBtn("Copiar prompt","prompt para pedir una mejora",staticText(T.mejora))]; }},
+  instrucciones: {kind:"instr", title:"Instrucciones para el proyecto", build:staticText(T.instrucciones),
+    buttons:function(){ return [copyBtn("Copiar instrucciones","instrucciones para el proyecto",staticText(T.instrucciones)), dlBtn("Instrucciones_proyecto.txt","instrucciones para el proyecto",staticText(T.instrucciones))]; }},
+  ficha: {kind:"ficha", title:"Ficha de contexto para completar",
+    fields:function(mode, level){
+      return FICHA_FIELDS.map(function(f){ var o = Object.assign({}, f); o.suggestion = mode === "ficticio" ? FICHA_SUG[level][f.key] : null; return o; });
+    },
+    build:function(g){ return FICHA_FIELDS.map(function(f){ return f.label + ": " + g(f.key) + "."; }).join("\n"); },
+    buttons:function(){ return [copyBtn("Copiar ficha","ficha de contexto completada",null), dlBtn("Ficha_contexto.txt","ficha de contexto completada",null)]; }},
+  plantilla: {kind:"prompt", title:"Plantilla para repetir una tarea",
+    fields:function(mode, level){
+      return PLANT_FIELDS.map(function(f){ var o = Object.assign({}, f); o.suggestion = mode === "ficticio" ? PLANT_SUG[level][f.key] : null; return o; });
+    },
+    build:function(g){ return "Con " + g("fuentes") + ", necesito " + g("resultado") + " para " + g("destinatarios") + ". Sitúate al " + g("fecha") + ". Ten en cuenta " + g("contexto") + ". Tono " + g("tono") + " y formato " + g("formato") + ". Separa hechos, acuerdos y propuestas; no inventes datos ni autorizaciones. Si falta información importante o no puedes leer una fuente, pregúntame."; },
+    buttons:function(){ return [copyBtn("Copiar prompt","plantilla completada",null)]; }},
+  basicoP1: {kind:"prompt", title:"Ejemplo para el caso ficticio", build:staticText(T.basicoP1),
+    buttons:function(){ return [copyBtn("Copiar prompt","prompt del primer correo",staticText(T.basicoP1))]; }},
+  hilo: {kind:"datos", title:"Hilo de correos del básico · 15 y 16 de octubre de 2026", build:staticText(T.hilo),
+    buttons:function(){ return [dlBtn("Correos_practica.txt","hilo de correos del básico",staticText(T.hilo)), copyBtn("Copiar datos","hilo de correos del básico",staticText(T.hilo))]; }},
+  fuenteA: {kind:"datos", title:"Fuente A · reunión del 15 de octubre", build:staticText(T.fuenteA),
+    buttons:function(){ return [dlBtn("Reunion_15.txt","fuente A",staticText(T.fuenteA)), copyBtn("Copiar datos","fuente A",staticText(T.fuenteA))]; }},
+  fuenteB: {kind:"datos", title:"Fuente B · actualización del 20 de octubre", build:staticText(T.fuenteB),
+    buttons:function(){ return [dlBtn("Actualizacion_20.txt","fuente B",staticText(T.fuenteB)), copyBtn("Copiar datos","fuente B",staticText(T.fuenteB))]; }},
+  dosDest: {kind:"prompt", title:"Dos destinatarios distintos",
+    fields:function(mode){
+      var fic = mode === "ficticio";
+      return [
+        {key:"proveedor", label:"Destinatario de la respuesta cordial", hint: fic ? "Quien debe dar la confirmación pendiente." : "Rol o nombre ficticio de quien debe dar la confirmación pendiente.", suggestion: fic ? "proveedor" : null},
+        {key:"interno", label:"Destinatario del aviso interno", hint: fic ? "Quien necesita saber cómo queda la situación." : "Rol o nombre ficticio de la persona de tu equipo.", suggestion: fic ? "Alicia" : null},
+        {key:"firmante", label:"Firmante de ambos correos", hint:"Rol o nombre ficticio.", suggestion: fic ? "Bruno" : null}
+      ];
+    },
+    validate:function(v){ return norm(v.proveedor) === norm(v.interno) ? "Los dos destinatarios deben ser distintos." : ""; },
+    build:function(g){ return "Usa el hilo de correos que he aportado. Prepara dos borradores separados: respuesta cordial a " + g("proveedor") + " para pedir la confirmación pendiente; y aviso interno a " + g("interno") + " con lo conocido, lo que falta y la preparación ya prevista. Firma ambos como " + g("firmante") + ". Asunto y máximo de 100 palabras por correo. No inventes nuevas tareas, horarios o costes. Si no puedes leer el hilo, pídemelo antes de redactar."; },
+    buttons:function(mode){
+      var b = [copyBtn("Copiar prompt","prompt de los dos destinatarios",null)];
+      if(mode === "ficticio") b.push(copyBtn("Copiar prompt con correos","prompt de los dos destinatarios con el hilo de correos",function(g){ return SPECS.dosDest.build(g) + "\n\n" + T.hilo; }));
+      return b;
+    }},
+  acta: {kind:"prompt", title:"Acta y acciones", build:staticText(T.acta),
+    buttons:function(mode){
+      var b = [copyBtn("Copiar prompt","prompt «Acta y acciones»",staticText(T.acta))];
+      if(mode === "ficticio") b.push(copyBtn("Copiar prompt con fuente A","prompt «Acta y acciones» con la fuente A",function(){ return T.acta + "\n\n" + LABEL_A + "\n\n" + T.fuenteA; }));
+      return b;
+    }},
+  flujo: {kind:"prompt", title:"Flujo de trabajo propuesto", build:staticText(T.flujo),
+    buttons:function(){ return [copyBtn("Copiar prompt","prompt del flujo propuesto",staticText(T.flujo))]; }},
+  mensajes: {kind:"prompt", title:"Mensajes para el equipo",
+    fields:function(mode){
+      if(mode === "ficticio"){
+        var opts = ["Alicia","Bruno","Celia"];
+        return [
+          {key:"d1", label:"Destinatario 1", hint:"Persona con tareas asignadas en la fuente A.", select:opts, suggestion:"Alicia"},
+          {key:"d2", label:"Destinatario 2", hint:"Otra persona con tareas asignadas en la fuente A.", select:opts, suggestion:"Bruno"}
+        ];
+      }
+      return [
+        {key:"d1", label:"Destinatario 1", hint:"Nombre ficticio o rol de una persona con tareas asignadas en tu reunión."},
+        {key:"d2", label:"Destinatario 2", hint:"Otra persona o rol con tareas asignadas en tu reunión."}
+      ];
+    },
+    validate:function(v){ return norm(v.d1) === norm(v.d2) ? "Elige dos destinatarios distintos." : ""; },
+    build:function(g){ return "Prepara dos mensajes breves, de máximo 80 palabras cada uno, para " + g("d1") + " y " + g("d2") + ". Incluye solo sus tareas acordadas, sus plazos y qué queda pendiente. Separa cualquier sugerencia del acuerdo original. Indica qué debo comprobar antes de enviar cada mensaje. No los envíes."; },
+    buttons:function(){ return [copyBtn("Copiar prompt","prompt de los mensajes para el equipo",null)]; }},
+  base: {kind:"prompt", title:"Base de seguimiento",
+    fields:function(mode){ return mode === "ficticio" ? [] : [{key:"fecha", label:"Fecha de referencia de tu reunión", hint:"Se lee «Sitúate al…». Por ejemplo: «3 de noviembre de 2026»."}]; },
+    build:function(g, mode){
+      if(mode === "ficticio") return T.baseFicticio;
+      return T.baseFicticio.replace("En el caso de la feria, sitúate al 15 de octubre de 2026.", "Sitúate al " + g("fecha") + ".");
+    },
+    buttons:function(mode){
+      var b = [copyBtn("Copiar prompt","prompt «Base de seguimiento»",null)];
+      if(mode === "ficticio") b.push(copyBtn("Copiar prompt con fuente A","prompt «Base de seguimiento» con la fuente A",function(){ return T.baseFicticio + "\n\n" + LABEL_A + "\n\n" + T.fuenteA; }));
+      return b;
+    }},
+  cambios: {kind:"prompt", title:"Cambios y seguimiento actual",
+    fields:function(mode){ return mode === "ficticio" ? [] : [{key:"fecha", label:"Fecha de la actualización", hint:"Se lee «Sitúate al…». Fecha de la nota o correo posterior."}]; },
+    build:function(g, mode){
+      if(mode === "ficticio") return T.cambiosFicticio;
+      return T.cambiosFicticio.replace("En la feria estamos al 20 de octubre.", "Sitúate al " + g("fecha") + ".");
+    },
+    buttons:function(mode){
+      var b = [copyBtn("Copiar prompt","prompt «Cambios y seguimiento actual»",null)];
+      if(mode === "ficticio") b.push(copyBtn("Copiar prompt con fuente B","prompt «Cambios y seguimiento actual» con la fuente B",function(){ return T.cambiosFicticio + "\n\n" + LABEL_B + "\n\n" + T.fuenteB; }));
+      return b;
+    }},
+  contrastar: {kind:"prompt", title:"Ayuda para contrastar", build:staticText(T.contrastar),
+    buttons:function(){ return [copyBtn("Copiar prompt","prompt «Ayuda para contrastar»",staticText(T.contrastar))]; }},
+  dashboard: {kind:"prompt", title:"Dashboard de consulta", build:staticText(T.dashboard),
+    buttons:function(){ return [copyBtn("Copiar prompt","prompt del dashboard de consulta",staticText(T.dashboard))]; }},
+  informe: {kind:"prompt", title:"Informe y alternativas", build:staticText(T.informe),
+    buttons:function(){ return [copyBtn("Copiar prompt","prompt «Informe y alternativas»",staticText(T.informe))]; }}
+};
+var KIND_LABEL = {prompt:"PROMPT", instr:"INSTRUCCIONES PARA EL PROYECTO", ficha:"FICHA DE CONTEXTO", datos:"DATOS PARA COPIAR"};
+
+/* ---------- Estado (solo en memoria) ---------- */
+var state = {mode:"ficticio", level:"basico", values:{ficticio:{}, adaptar:{}}, salida:null};
+function vals(key){
+  var m = state.values[state.mode];
+  // Contexto y plantilla propios de cada nivel, conservados solo en esta sesión.
+  var valueKey = key === "ficha" || key === "plantilla" ? key + "-" + state.level : key;
+  if(!m[valueKey]) m[valueKey] = {};
+  return m[valueKey];
+}
+
+/* ---------- Utilidades ---------- */
+function h(tag, attrs){
+  var e = document.createElement(tag);
+  if(attrs) for(var k in attrs){ if(attrs[k] === null || attrs[k] === undefined || attrs[k] === false) continue; if(k === "text") e.textContent = attrs[k]; else e.setAttribute(k, attrs[k]); }
+  for(var i = 2; i < arguments.length; i++){ var c = arguments[i]; if(c == null) continue; e.appendChild(typeof c === "string" ? document.createTextNode(c) : c); }
+  return e;
+}
+function clean(s){ return String(s || "").replace(/\s*\n+\s*/g, " ").replace(/\s+/g, " ").trim().replace(/[\s.;,]+$/, ""); }
+function norm(s){ return clean(s).toLowerCase(); }
+var live = document.getElementById("live");
+function announce(msg){ live.textContent = ""; setTimeout(function(){ live.textContent = msg; }, 40); }
+function paragraphs(container, text){ text.split(/\n\n+/).forEach(function(p){ container.appendChild(h("p", null, p)); }); }
+
+/* ---------- Copiar ---------- */
+function legacyCopy(text){
+  var ta = h("textarea", {readonly:"", "aria-hidden":"true", style:"position:fixed;top:-1000px;left:0;opacity:0"});
+  ta.value = text; document.body.appendChild(ta);
+  var active = document.activeElement, ok = false;
+  try{ ta.select(); ta.setSelectionRange(0, text.length); ok = document.execCommand("copy"); }catch(e){ ok = false; }
+  ta.remove(); if(active && active.focus) active.focus();
+  return ok;
+}
+var manual = document.getElementById("manual"), manualText = document.getElementById("manual-text"), lastFocus = null;
+function openManual(text){
+  lastFocus = document.activeElement;
+  manualText.value = text;
+  if(typeof manual.showModal === "function"){ manual.showModal(); } else { manual.setAttribute("open", ""); }
+  manualText.focus(); manualText.select();
+  announce("No se ha podido copiar automáticamente. El texto está seleccionado en una ventana para copiarlo a mano.");
+}
+function closeManual(){ if(typeof manual.close === "function") manual.close(); else manual.removeAttribute("open"); if(lastFocus) lastFocus.focus(); }
+document.getElementById("manual-close").addEventListener("click", closeManual);
+document.getElementById("manual-select").addEventListener("click", function(){ manualText.focus(); manualText.select(); });
+manual.addEventListener("cancel", function(){ setTimeout(function(){ if(lastFocus) lastFocus.focus(); }, 0); });
+
+function setStatus(el, msg, kind){ el.textContent = msg; el.className = "slip-status " + (kind || ""); announce(msg); }
+function copyText(text, statusEl, what){
+  var done = function(){ setStatus(statusEl, "Copiado: " + what + ". Pégalo en tu herramienta.", "ok"); };
+  var fallback = function(){ if(legacyCopy(text)) done(); else { setStatus(statusEl, "No se ha copiado automáticamente. Cópialo a mano desde la ventana abierta.", "err"); openManual(text); } };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else fallback();
+  }catch(e){ fallback(); }
+}
+function download(filename, text, statusEl, what){
+  try{
+    var blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+    var url = URL.createObjectURL(blob);
+    var a = h("a", {href:url, download:filename, style:"display:none"});
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+    setStatus(statusEl, "Descarga preparada: " + filename + " (" + what + "). Si no aparece, usa el botón de copiar y guárdalo en un archivo de texto.", "ok");
+  }catch(e){
+    setStatus(statusEl, "No se ha podido descargar. Copia el texto a mano desde la ventana abierta y guárdalo como " + filename + ".", "err");
+    openManual(text);
+  }
+}
+
+/* ---------- Render de bloques ---------- */
+var uid = 0;
+var SENT = /\u0001([a-z0-9]+)\u0002/g;
+function renderMount(m){
+  var key = m.getAttribute("data-mount"), spec = SPECS[key];
+  if(!spec) return;
+  if(!m.id) m.id = "blk-" + key + "-" + (++uid);
+  var id = m.id, mode = state.mode, hl = m.getAttribute("data-h") || "4";
+  var fields = spec.fields ? spec.fields(mode, state.level) : [];
+  var v = vals(key);
+  m.innerHTML = "";
+
+  var box = h("div", {"class":"slip slip-" + spec.kind, role:"group", "aria-labelledby":id + "-t"});
+  box.appendChild(h("p", {"class":"slip-tab"}, KIND_LABEL[spec.kind]));
+  box.appendChild(h("h" + hl, {"class":"slip-title", id:id + "-t"}, spec.title));
+
+  var preview = h("div", {"class":"slip-text", id:id + "-x"});
+  function labelFor(k){ for(var i = 0; i < fields.length; i++) if(fields[i].key === k) return fields[i].label; return k; }
+  function renderPreview(){
+    preview.innerHTML = "";
+    var text = spec.build(function(k){ var c = clean(v[k]); return c ? c : "\u0001" + k + "\u0002"; }, mode);
+    text.split(/\n\n+/).forEach(function(par){
+      var p = h("p"); var last = 0, mm; SENT.lastIndex = 0;
+      while((mm = SENT.exec(par))){ if(mm.index > last) p.appendChild(document.createTextNode(par.slice(last, mm.index))); p.appendChild(h("mark", {"class":"missing"}, "falta: " + labelFor(mm[1]))); last = SENT.lastIndex; }
+      if(last < par.length) p.appendChild(document.createTextNode(par.slice(last)));
+      preview.appendChild(p);
+    });
+  }
+
+  if(fields.length){
+    var fs = h("fieldset", {"class":"slip-fields"});
+    fs.appendChild(h("legend", null, "Completa antes de copiar"));
+    var hasSugg = fields.some(function(f){ return f.suggestion; });
+    if(hasSugg){
+      var all = h("button", {type:"button", "class":"secondary"}, "Usar todas las sugerencias del caso");
+      all.addEventListener("click", function(){
+        fields.forEach(function(f){ if(f.suggestion){ v[f.key] = f.suggestion; var inp = document.getElementById(id + "-f-" + f.key); if(inp){ inp.value = f.suggestion; inp.removeAttribute("aria-invalid"); var em = document.getElementById(id + "-e-" + f.key); if(em) em.textContent = ""; } } });
+        renderPreview(); announce("Sugerencias aplicadas. Revísalas antes de copiar.");
+      });
+      fs.appendChild(h("p", null, all));
+    }
+    fields.forEach(function(f){
+      var fid = id + "-f-" + f.key, hid = id + "-h-" + f.key, eid = id + "-e-" + f.key;
+      var wrap = h("div", {"class":"field"});
+      wrap.appendChild(h("label", {"for":fid}, f.label));
+      wrap.appendChild(h("span", {"class":"hint", id:hid}, f.hint));
+      var input;
+      if(f.select){
+        input = h("select", {id:fid, "aria-describedby":hid + " " + eid, autocomplete:"off"});
+        input.appendChild(h("option", {value:""}, "Elige una persona"));
+        f.select.forEach(function(o){ var op = h("option", {value:o}, o); if(v[f.key] === o) op.selected = true; input.appendChild(op); });
+      } else if(f.area){
+        input = h("textarea", {id:fid, rows:"2", "aria-describedby":hid + " " + eid, autocomplete:"off", spellcheck:"true"});
+        input.value = v[f.key] || "";
+      } else {
+        input = h("input", {id:fid, type:"text", "aria-describedby":hid + " " + eid, autocomplete:"off"});
+        input.value = v[f.key] || "";
+      }
+      var onChange = function(){ v[f.key] = input.value; input.removeAttribute("aria-invalid"); document.getElementById(eid).textContent = ""; renderPreview(); };
+      input.addEventListener("input", onChange); input.addEventListener("change", onChange);
+      wrap.appendChild(input);
+      wrap.appendChild(h("span", {"class":"err-msg", id:eid}));
+      if(f.suggestion || f.noConsta){
+        var sg = h("p", {"class":"sugg"});
+        if(f.suggestion){
+          sg.appendChild(h("span", null, "Sugerencia del caso: ", h("q", null, f.suggestion)));
+          var use = h("button", {type:"button", "class":"link", "aria-label":"Usar la sugerencia para " + f.label}, "Usar sugerencia");
+          use.addEventListener("click", function(){ input.value = f.suggestion; onChange(); input.focus(); });
+          sg.appendChild(use);
+        }
+        if(f.noConsta){
+          var nc = h("button", {type:"button", "class":"link", "aria-label":"Escribir «no consta» en " + f.label}, "Escribir «no consta»");
+          nc.addEventListener("click", function(){ input.value = "no consta"; onChange(); input.focus(); });
+          sg.appendChild(nc);
+        }
+        wrap.appendChild(sg);
+      }
+      fs.appendChild(wrap);
+    });
+    box.appendChild(fs);
+    box.appendChild(h("p", {"class":"preview-label", id:id + "-pl"}, "Vista previa del texto que se copiará"));
+    preview.setAttribute("aria-labelledby", id + "-pl");
+  }
+
+  renderPreview();
+  if(m.getAttribute("data-collapsed")){
+    var det = h("details", {"class":"srcbody"});
+    det.appendChild(h("summary", null, "Mostrar el texto de la fuente"));
+    det.appendChild(preview);
+    box.appendChild(det);
+  } else box.appendChild(preview);
+
+  var status = h("p", {"class":"slip-status", id:id + "-s"});
+  var row = h("div", {"class":"btnrow"});
+  spec.buttons(mode).forEach(function(b, i){
+    var btn = h("button", {type:"button", "class": i === 0 && b.type === "copy" ? "" : "secondary", "aria-describedby":id + "-t"}, b.label);
+    btn.addEventListener("click", function(){
+      var res = collect(id, spec, fields, v);
+      if(res.error){ setStatus(status, res.error, "err"); if(res.focus) res.focus.focus(); return; }
+      var build = b.build || spec.build;
+      var text = build(function(k){ return res.v[k]; }, mode);
+      if(/\[|\]|\u0001/.test(text)){ setStatus(status, "El texto todavía contiene corchetes o marcadores. Revisa los campos antes de copiar.", "err"); return; }
+      if(b.type === "download") download(b.filename, text, status, b.what);
+      else copyText(text, status, b.what);
+    });
+    row.appendChild(btn);
+  });
+  box.appendChild(row);
+  box.appendChild(status);
+  m.appendChild(box);
+}
+
+function collect(id, spec, fields, v){
+  var out = {}, missing = [], bad = [], firstBad = null;
+  fields.forEach(function(f){
+    var c = clean(v[f.key]), inp = document.getElementById(id + "-f-" + f.key), em = document.getElementById(id + "-e-" + f.key);
+    if(!c){ missing.push(f); if(inp){ inp.setAttribute("aria-invalid", "true"); em.textContent = f.noConsta ? "Completa este campo o escribe «no consta»." : "Completa este campo."; firstBad = firstBad || inp; } }
+    else if(/[\[\]]/.test(c)){ bad.push(f); if(inp){ inp.setAttribute("aria-invalid", "true"); em.textContent = "Quita los corchetes y escribe el dato."; firstBad = firstBad || inp; } }
+    else out[f.key] = c;
+  });
+  if(missing.length){
+    var names = missing.map(function(f){ return f.label; }).join(", ");
+    var nc = missing.some(function(f){ return f.noConsta; });
+    return {error:"Falta completar: " + names + "." + (nc ? " Si un dato no existe, escribe «no consta» donde se ofrece." : ""), focus:firstBad};
+  }
+  if(bad.length) return {error:"Quita los corchetes de: " + bad.map(function(f){ return f.label; }).join(", ") + ".", focus:firstBad};
+  if(spec.validate && fields.length){ var e = spec.validate(out); if(e) return {error:e, focus:document.getElementById(id + "-f-" + fields[0].key)}; }
+  return {v:out};
+}
+
+function renderAll(){ document.querySelectorAll(".mount").forEach(renderMount); }
+
+/* ---------- Selector de modo ---------- */
+var modeCount = 0;
+function renderModeToggles(){
+  document.querySelectorAll(".mount-mode").forEach(function(m){
+    m.innerHTML = ""; var n = ++modeCount;
+    var fs = h("fieldset", {"class":"mode-toggle"});
+    fs.appendChild(h("legend", null, "Cómo quieres practicar"));
+    var opts = h("div", {"class":"opts"});
+    [["ficticio","Caso ficticio"],["adaptar","Adaptar a mi trabajo"]].forEach(function(o){
+      var r = h("input", {type:"radio", name:"mode-" + n, value:o[0]}); r.checked = state.mode === o[0];
+      r.addEventListener("change", function(){ if(r.checked) setMode(o[0]); });
+      opts.appendChild(h("label", null, r, " " + o[1]));
+    });
+    fs.appendChild(opts);
+    fs.appendChild(h("p", null, state.mode === "ficticio"
+      ? "Usas Accesorios Norte y sus fuentes, con sugerencias del caso que confirmas tú."
+      : "Preparas tus fuentes fuera de esta página y sin datos sensibles. Aquí solo concretas destinatarios, fechas y resultado. Lo que escribas en un modo no pasa al otro."));
+    m.appendChild(fs);
+  });
+}
+function setMode(mode){
+  state.mode = mode; document.body.setAttribute("data-mode", mode);
+  renderModeToggles(); renderAll();
+  announce(mode === "ficticio" ? "Modo caso ficticio." : "Modo adaptar a mi trabajo.");
+}
+function setLevel(level){
+  if(!SPECS || !FICHA_SUG[level]) return;
+  state.level = level; document.body.setAttribute("data-level", level);
+  document.querySelectorAll('input[name="level"]').forEach(function(r){ r.checked = r.value === level; });
+  document.querySelectorAll('.mount[data-mount="ficha"], .mount[data-mount="plantilla"]').forEach(renderMount);
+}
+document.querySelectorAll('input[name="level"]').forEach(function(r){ r.addEventListener("change", function(){ if(r.checked) setLevel(r.value); }); });
+document.addEventListener("click", function(e){ var a = e.target.closest && e.target.closest("[data-setlevel]"); if(a) setLevel(a.getAttribute("data-setlevel")); });
+
+/* ---------- Avanzado: etapa 2 y salida ---------- */
+var gate = document.getElementById("adv-gate"), stage2 = document.getElementById("adv-stage2");
+gate.addEventListener("click", function(){
+  stage2.hidden = false; gate.setAttribute("aria-expanded", "true");
+  document.getElementById("adv-gate-row").hidden = true; document.getElementById("adv-gate-note").hidden = true;
+  var hd = document.getElementById("a-p2"); hd.focus(); hd.scrollIntoView({block:"start"});
+  announce("Etapa 2 disponible: añade la actualización.");
+});
+document.querySelectorAll('input[name="salida"]').forEach(function(r){
+  r.addEventListener("change", function(){
+    if(!r.checked) return; state.salida = r.value;
+    document.getElementById("salida-empty").hidden = true;
+    document.getElementById("salida-dashboard").hidden = r.value !== "dashboard";
+    document.getElementById("salida-informe").hidden = r.value !== "informe";
+  });
+});
+
+/* ---------- Reflexión ---------- */
+var reflQ = ["¿Qué tarea elegí?","¿Qué corregí o comprobé?","¿Qué duda traigo a la próxima clase?"];
+function reflText(){
+  var name = document.getElementById("refl-name").value.trim();
+  return "Reflexión — Jornada 1" + (name ? "\nNombre: " + name : "") + "\n\n" + reflQ.map(function(q, i){ return q + "\n" + (document.getElementById("refl-" + (i + 1)).value.trim() || "(sin respuesta)"); }).join("\n\n");
+}
+function reflMail(){
+  var body = "Hola Diego,\n\nTe comparto mi reflexión de la jornada 1.\n\n" + reflText() + "\n\nGracias.";
+  return "mailto:contacto@aitic.es?subject=" + encodeURIComponent("Jornada 1 — Mi reflexión y dudas") + "&body=" + encodeURIComponent(body.replace(/\r?\n/g, "\r\n"));
+}
+var reflStatus = document.getElementById("refl-status");
+document.getElementById("refl-email").addEventListener("click", function(){
+  var hasAnswer = [1,2,3].some(function(i){ return document.getElementById("refl-" + i).value.trim(); });
+  if(!hasAnswer){ setStatus(reflStatus, "Escribe al menos una respuesta antes de abrir el correo.", "warn"); document.getElementById("refl-1").focus(); return; }
+  try {
+    window.location.href = reflMail();
+    setStatus(reflStatus, "Se ha solicitado abrir un borrador en tu correo. Revisa las respuestas y envíalo desde allí. Si no se abre, usa Copiar o Descargar TXT: esta página no ha enviado ningún mensaje.", "ok");
+  } catch(e){ setStatus(reflStatus, "No se ha podido abrir el correo. Copia las respuestas o descarga el TXT y envíalo a contacto@aitic.es desde tu correo.", "warn"); }
+});
+document.getElementById("refl-copy").addEventListener("click", function(){ copyText(reflText(), reflStatus, "tus respuestas"); });
+document.getElementById("refl-dl").addEventListener("click", function(){ download("Reflexion_jornada1.txt", reflText(), reflStatus, "tus respuestas"); });
+document.getElementById("refl-clear").addEventListener("click", function(){ document.getElementById("refl-name").value = ""; [1,2,3].forEach(function(i){ document.getElementById("refl-" + i).value = ""; }); setStatus(reflStatus, "Respuestas borradas.", "ok"); });
+
+/* ---------- Navegación ---------- */
+var views = Array.prototype.slice.call(document.querySelectorAll(".view"));
+function route(e){
+  var raw = (location.hash || "#inicio").slice(1), parts = raw.split("/"), name = parts[0], anchor = parts[1];
+  var target = document.getElementById("v-" + name);
+  if(!target || !target.classList.contains("view")){
+    var el = document.getElementById(raw);
+    if(el){ var host = el.closest(".view"); if(host){ name = host.getAttribute("data-route"); anchor = raw; target = host; } }
+  }
+  if(!target){ name = "inicio"; target = document.getElementById("v-inicio"); }
+  if(FICHA_SUG[name] && state.level !== name) setLevel(name);
+  if(manual.open) closeManual();
+  views.forEach(function(v){ v.hidden = v !== target; v.classList.toggle("active", v === target); });
+  var group = target.getAttribute("data-group") || name;
+  document.querySelectorAll("[data-nav]").forEach(function(a){ if(a.getAttribute("data-nav") === group){ a.setAttribute("aria-current", "page"); var ul = a.closest("ul"); if(ul && ul.scrollWidth > ul.clientWidth) ul.scrollLeft = a.parentNode.offsetLeft - 16; } else a.removeAttribute("aria-current"); });
+  document.title = target.getAttribute("data-title") + " · Jornada 1 — Repaso y práctica";
+  var focusEl = anchor ? document.getElementById(anchor) : target.querySelector("h2");
+  if(focusEl && e){ if(!focusEl.hasAttribute("tabindex")) focusEl.setAttribute("tabindex", "-1"); focusEl.focus({preventScroll:true}); }
+  if(anchor && focusEl) focusEl.scrollIntoView({block:"start"}); else window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+
+/* ---------- Impresión ---------- */
+var reopened = [];
+window.addEventListener("beforeprint", function(){ reopened = []; document.querySelectorAll(".view.active details:not([open])").forEach(function(d){ d.open = true; reopened.push(d); }); });
+window.addEventListener("afterprint", function(){ reopened.forEach(function(d){ d.open = false; }); reopened = []; });
+document.getElementById("print-btn").addEventListener("click", function(){ window.print(); });
+
+/* ---------- Inicio ---------- */
+renderModeToggles(); renderAll(); route();
+})();
+</script>
+</body>
+</html>
